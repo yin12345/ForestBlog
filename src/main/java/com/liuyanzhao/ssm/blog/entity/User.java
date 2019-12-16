@@ -32,7 +32,7 @@ public class User implements Serializable{
     private Date userLastLoginTime;
 
     private Integer userStatus;
-
+    private Integer userPermission;
     /**
      * 文章数量（不是数据库字段）
      */
@@ -136,5 +136,13 @@ public class User implements Serializable{
 
     public void setArticleCount(Integer articleCount) {
         this.articleCount = articleCount;
+    }
+
+    public Integer getUserPermission() {
+        return userPermission;
+    }
+
+    public void setUserPermission(Integer userPermission) {
+        this.userPermission = userPermission;
     }
 }

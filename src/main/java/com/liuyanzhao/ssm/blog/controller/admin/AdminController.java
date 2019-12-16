@@ -81,6 +81,7 @@ public class AdminController {
         String password = request.getParameter("password");
         String rememberme = request.getParameter("rememberme");
         User user = userService.getUserByNameOrEmail(username);
+
         if(user==null) {
             map.put("code",0);
             map.put("msg","用户名无效！");
@@ -89,6 +90,7 @@ public class AdminController {
             map.put("msg","密码错误！");
         } else {
             //登录成功
+            int permission=user.getUserPermission();
             map.put("code",1);
             map.put("msg","");
             //添加session
@@ -101,8 +103,12 @@ public class AdminController {
                 nameCookie.setMaxAge(60 * 60 * 24 * 3);
                 Cookie pwdCookie = new Cookie("password", password);
                 pwdCookie.setMaxAge(60 * 60 * 24 * 3);
+                HttpSession session=request.getSession();
+                session.setAttribute("permission",permission);
+
                 response.addCookie(nameCookie);
                 response.addCookie(pwdCookie);
+
             }
             user.setUserLastLoginTime(new Date());
             user.setUserLastLoginIp(getIpAddr(request));
