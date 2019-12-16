@@ -13,13 +13,14 @@
         <result column="user_register_time" property="userRegisterTime" jdbcType="TIMESTAMP"/>
         <result column="user_last_login_time" property="userLastLoginTime" jdbcType="TIMESTAMP"/>
         <result column="user_status" property="userStatus" jdbcType="INTEGER"/>
+        <result column="user_permission" property="userPermission" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="tb">user</sql>
 
     <sql id="Base_Column_List">
     user_id, user_name, user_pass, user_nickname, user_email, user_url, user_avatar, 
-    user_last_login_ip, user_register_time, user_last_login_time, user_status
+    user_last_login_ip, user_register_time, user_last_login_time, user_status, user_permission
   </sql>
 
     <select id="getUserById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
