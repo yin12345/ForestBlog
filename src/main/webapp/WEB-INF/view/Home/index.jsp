@@ -75,13 +75,13 @@
 
                         <span class="entry-meta">
                             <span class="avatar">
-                                <a href="/article/${a.articleId}">
+                                  <a href="/user?userId=${a.user.userId}">
                                     <img src="${a.user.userAvatar}"
                                          style="width : 40px; height: 40px;vertical-align: middle;border-radius: 50%">
                                 </a>
                             </span>
                             <span style="margin-left: 3px;margin-right: 20px;font-size: 120%;">
-                                <a href="/article/${a.articleId}">
+                                  <a href="/user?userId=${a.user.userId}">
                                     ${a.user.userName}
                                 </a>
                             </span>

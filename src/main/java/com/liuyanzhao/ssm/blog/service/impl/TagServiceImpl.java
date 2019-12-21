@@ -38,7 +38,7 @@ public class TagServiceImpl implements TagService {
             tagList = tagMapper.listTag();
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("获得所有标签失败, cause:{}", e);
+
         }
         return tagList;
     }
@@ -54,7 +54,7 @@ public class TagServiceImpl implements TagService {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("获得所有标签失败, cause:{}", e);
+
         }
         return tagList;
     }
@@ -66,7 +66,7 @@ public class TagServiceImpl implements TagService {
         try {
             tag = tagMapper.getTagById(id);
         } catch (Exception e) {            e.printStackTrace();
-            log.error("根据ID获得标签失败, id:{}, cause:{}", id, e);
+
         }
         return tag;
     }
@@ -77,7 +77,7 @@ public class TagServiceImpl implements TagService {
             tagMapper.insert(tag);
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("添加标签失败, tag:{}, cause:{}", tag, e);
+
         }
         return tag;
     }
@@ -88,7 +88,7 @@ public class TagServiceImpl implements TagService {
             tagMapper.update(tag);
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("更新标签失败, tag:{}, cause:{}", tag, e);
+
         }
     }
 
@@ -100,7 +100,7 @@ public class TagServiceImpl implements TagService {
             articleTagRefMapper.deleteByTagId(id);
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("删除标签失败, id:{}, cause:{}", id, e);
+
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
 
@@ -112,7 +112,7 @@ public class TagServiceImpl implements TagService {
         try {
             tag = tagMapper.getTagByName(name);
         } catch (Exception e) {            e.printStackTrace();
-            log.error("根据名称获得标签, name:{}, cause:{}", name, e);
+
         }
         return tag;
     }
@@ -124,7 +124,7 @@ public class TagServiceImpl implements TagService {
             tagList = articleTagRefMapper.listTagByArticleId(articleId);
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("根据文章ID获得标签失败，articleId:{}, cause:{}", articleId, e);
+
         }
         return tagList;
     }

@@ -1,12 +1,15 @@
 package com.liuyanzhao.ssm.blog.service.impl;
 
+import com.liuyanzhao.ssm.blog.entity.Users;
 import com.liuyanzhao.ssm.blog.mapper.ArticleMapper;
 import com.liuyanzhao.ssm.blog.mapper.UserMapper;
 import com.liuyanzhao.ssm.blog.entity.User;
+import com.liuyanzhao.ssm.blog.mapper.UsersMapper;
 import com.liuyanzhao.ssm.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +26,10 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Autowired(required = false)
+    private UsersMapper usersMapper;
+
+
+    @Autowired(required = false)
     private ArticleMapper articleMapper;
 
     @Override
@@ -34,6 +41,18 @@ public class UserServiceImpl implements UserService {
         }
         return userList;
     }
+    @Override
+    public List<User> listWatcherUser(Integer user1_id) {
+        List<Users> usersList = usersMapper.getUsersByuser1_id(user1_id);
+        System.out.println(usersList);
+        List<User> userList =new ArrayList();
+        for (int i = 0; i < usersList.size(); i++) {
+            Integer userId =usersList.get(i).getUser2_id();
+            User user=userMapper.getUserById(userId);
+            userList.add(user);
+        }
+        return userList;
+    }
 
     @Override
     public User getUserById(Integer id) {
@@ -42,6 +61,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user) {
+
         userMapper.update(user);
     }
 
@@ -70,6 +90,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByEmail(String email) {
         return userMapper.getUserByEmail(email);
+    }
+
+    @Override
+    public List<User> listfan(Integer user2_id) {
+        List<Users> usersList = usersMapper.getUsersByuser2_id(user2_id);
+        System.out.println(usersList);
+        List<User> userList =new ArrayList();
+        for (int i = 0; i < usersList.size(); i++) {
+            Integer userId =usersList.get(i).getUser1_id();
+            User user=userMapper.getUserById(userId);
+            userList.add(user);
+        }
+        return userList;
     }
 
 

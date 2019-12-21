@@ -44,7 +44,7 @@ public class ArticleServiceImpl implements ArticleService {
             count = articleMapper.countArticle(status);
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("根据状态统计文章数, status:{}, cause:{}", status, e);
+
         }
         return count;
     }
@@ -56,7 +56,7 @@ public class ArticleServiceImpl implements ArticleService {
             count = articleMapper.countArticleComment();
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("统计文章评论数失败, cause:{}", e);
+
         }
         return count;
     }
@@ -69,7 +69,7 @@ public class ArticleServiceImpl implements ArticleService {
             count = articleMapper.countArticleView();
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("统计文章访问量失败, cause:{}", e);
+
         }
         return count;
     }
@@ -81,7 +81,7 @@ public class ArticleServiceImpl implements ArticleService {
             count = articleCategoryRefMapper.countArticleByCategoryId(categoryId);
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("根据分类统计文章数量失败, categoryId:{}, cause:{}", categoryId, e);
+
         }
         return count;
     }

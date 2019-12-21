@@ -13,13 +13,17 @@
         <result column="user_register_time" property="userRegisterTime" jdbcType="TIMESTAMP"/>
         <result column="user_last_login_time" property="userLastLoginTime" jdbcType="TIMESTAMP"/>
         <result column="user_status" property="userStatus" jdbcType="INTEGER"/>
+        <result column="user_permission" property="userPermission" jdbcType="INTEGER"/>
+        <result column="user_sex" property="user_sex" jdbcType="TIMESTAMP"/>
+        <result column="user_uid" property="user_uid" jdbcType="INTEGER"/>
+        <result column="user_sign" property="user_sign" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="tb">user</sql>
 
     <sql id="Base_Column_List">
     user_id, user_name, user_pass, user_nickname, user_email, user_url, user_avatar, 
-    user_last_login_ip, user_register_time, user_last_login_time, user_status
+    user_last_login_ip, user_register_time, user_last_login_time, user_status, user_permission
   </sql>
 
     <select id="getUserById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -61,9 +65,6 @@
             <if test="userLastLoginIp != null">user_last_login_ip = #{userLastLoginIp,jdbcType=VARCHAR},</if>
             <if test="userRegisterTime != null">user_register_time = #{userRegisterTime,jdbcType=TIMESTAMP},</if>
             <if test="userLastLoginTime != null">user_last_login_time = #{userLastLoginTime,jdbcType=TIMESTAMP},</if>
-            <if test="userStatus != null">user_status = #{userStatus,jdbcType=INTEGER},</if>
-            <if test="userSex !=null">user_sex =#{userSex,jdbcType=INTEGER},</if>
-            <if test="userSign != null">user_sign = #{userSign,jdbcType=VARCHAR},</if>
         </set>
         where user_id = #{userId,jdbcType=INTEGER}
     </update>
@@ -77,6 +78,10 @@
         <include refid="tb"/>
         ORDER BY `user_status` ASC
     </select>
+
+
+
+
 
     <!--根据用户名或邮箱获得用户-->
     <select id="getUserByNameOrEmail" parameterType="String" resultType="com.liuyanzhao.ssm.blog.entity.User">

@@ -9,12 +9,29 @@
 <header id="masthead" class="site-header">
     <%--主要菜单 satrt--%>
     <div id="menu-box">
-        <div id="top-menu" style="width: 80%">
+        <div id="top-menu" style="width: 1200px">
+            <span class="nav-image"   style=" background: transparent;float: right;
+                line-height: 26px;
+                margin: 28px 10px 0 20px;
+                vertical-align: top;
+                border: none;
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0);" >
+                <c:if test="${sessionScope.user!=null}">
+                      <li class="layui-nav-item" lay-unselect="">
+
+                          <a href="user?userId=${sessionScope.user.userId}">
+                           <img src="${sessionScope.user.userAvatar}" class="layui-nav-img">${sessionScope.user.userName}
+                          </a>
+                      </li>
+
+                </c:if>
+
+            </span>
 <%--            <span class="nav-search">--%>
 <%--                <i class="fa fa-search"></i>--%>
 <%--            </span>--%>
 
-            <div class="logo-site" style="line-height: 60px;"><h1 class="site-title">
+            <div class="logo-site"><h1 class="site-title">
                 <a href="/" title="${options.optionSiteTitle}">${options.optionSiteTitle}</a>
             </h1>
                 <%--                <p class="site-description">${options.optionSiteDescrption}</p>--%>

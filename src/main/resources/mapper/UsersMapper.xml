@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liuyanzhao.ssm.blog.mapper.UsersMapper">
+    <resultMap id="BaseResultMap" type="com.liuyanzhao.ssm.blog.entity.Users">
+        <result column="user1_id" property="user1_id" jdbcType="INTEGER"/>
+        <result column="user2_id" property="user2_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="tb">users</sql>
+
+    <sql id="Base_Column_List">
+    user1_id,user2_id
+    </sql>
+
+
+
+    <select id="getUsersByuser1_id" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from <include refid="tb"/>
+        where user1_id = #{user1_id,jdbcType=INTEGER}
+    </select>
+
+    <select id="getUsersByuser2_id" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from <include refid="tb"/>
+        where user2_id = #{user2_id,jdbcType=INTEGER}
+    </select>
+
+    <select id="getUsersByuser1_idanduser2_id" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from <include refid="tb"/>
+        where user1_id = #{user1_id,jdbcType=INTEGER}
+        AND user2_id = #{user2_id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByuser1anduser2" parameterType="java.lang.Integer">
+        delete from
+        <include refid="tb"/>
+        where user1_id = #{user1_id,jdbcType=INTEGER}
+        AND user2_id = #{user2_id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="com.liuyanzhao.ssm.blog.entity.Users" >
+        insert into
+        <include refid="tb"/>
+        (user1_id,user2_id)
+        values (#{user1_id,jdbcType=INTEGER},#{user2_id,jdbcType=INTEGER})
+    </insert>
+
+    <update id="update" parameterType="com.liuyanzhao.ssm.blog.entity.Users">
+        update
+        <include refid="tb"/>
+        <set>
+        <if test="user1_id != null">user1_id = #{user1_id,jdbcType=VARCHAR},</if>
+        <if test="user2_id != null">user2_id = #{user2_id,jdbcType=VARCHAR},</if>
+
+      </set>
+    </update>
+
+
+
+
+
+
+
+
+</mapper>

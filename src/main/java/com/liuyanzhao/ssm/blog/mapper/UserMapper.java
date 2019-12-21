@@ -51,7 +51,7 @@ public interface UserMapper {
      */
     List<User> listUser() ;
 
-
+    List<User> listWatcherUser() ;
     /**
      * 根据用户名或Email获得用户
      * 

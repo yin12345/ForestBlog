@@ -66,7 +66,10 @@
                     <dl class="layui-nav-child">
                         <dd><a href="/admin/article?">全部文章</a></dd>
                         <dd><a href="/admin/article/insert">写文章</a></dd>
-                        <dd><a href="/admin/category">全部分类</a></dd>
+                        <c:if test="${sessionScope.permission==1}">
+                            <dd><a href="/admin/category">全部分类</a></dd>
+                        </c:if>
+
                         <%--<dd><a href="/admin/tag">全部标签</a></dd>--%>
                     </dl>
                 </li>
@@ -98,15 +101,18 @@
                         评论
                     </a>
                 </li>
-                <li class="layui-nav-item">
-                    <a class="" href="javascript:;">
-                        用户
-                    </a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="/admin/user">全部用户</a></dd>
-                        <dd><a href="/admin/user/insert">添加用户</a></dd>
-                    </dl>
-                </li>
+                <c:if test="${sessionScope.permission==1}">
+                    <li class="layui-nav-item">
+                        <a class="" href="javascript:;">
+                            用户
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="/admin/user">全部用户</a></dd>
+                            <dd><a href="/admin/user/insert">添加用户</a></dd>
+                        </dl>
+                    </li>
+                </c:if>
+
                 <%--<li class="layui-nav-item">--%>
                     <%--<a href="javascript:;">设置</a>--%>
                     <%--<dl class="layui-nav-child">--%>

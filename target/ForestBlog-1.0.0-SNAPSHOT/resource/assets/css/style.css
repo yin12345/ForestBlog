@@ -930,6 +930,21 @@ a, button, input {
         border: none;
     }
 
+    .nav-image {
+        background: transparent;
+        color: #999;
+        line-height: 29px;
+        margin: 5px 10px 0 0;
+        vertical-align: top;
+        border: none;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
+    }
+
+    .nav-image:hover {
+        background: transparent;
+        color: rgba(0, 150, 136, 0.01);
+        border: none;
+    }
     .mobile-login a {
         color: #999;
         margin: 7px 10px 0 0;
@@ -1381,14 +1396,15 @@ a, button, input {
 
 /** 位置 w:1080**/
 .breadcrumb {
-    width: 1180px;
-    height: 25px;
+
+    width: 1080px;
+    height: auto;
     line-height: 25px;
     margin: 0 auto;
-    padding-left: 10px;
+    padding-left: 0px;
 }
 
-.breadcrumb .fa-angle-right {
+ breadcrumb .fa-angle-right {
     font-size: 16px;
     margin: 0 4px;
 }

@@ -32,8 +32,12 @@ public class User implements Serializable{
     private Date userLastLoginTime;
 
     private Integer userStatus;
+    private Integer userPermission;
 
     private String userSign;
+    private Integer userSex;
+    private String userImg;
+    private Integer userUid;
 
     public String getUserSign() {
         return userSign;
@@ -51,13 +55,6 @@ public class User implements Serializable{
         this.userSex = userSex;
     }
 
-    public Integer getUserPermission() {
-        return userPermission;
-    }
-
-    public void setUserPermission(Integer userPermission) {
-        this.userPermission = userPermission;
-    }
 
     public String getUserImg() {
         return userImg;
@@ -75,10 +72,7 @@ public class User implements Serializable{
         this.userUid = userUid;
     }
 
-    private Integer userSex;
-    private Integer userPermission;
-    private String userImg;
-    private Integer userUid;
+
 
     /**
      * 文章数量（不是数据库字段）
@@ -184,4 +178,13 @@ public class User implements Serializable{
     public void setArticleCount(Integer articleCount) {
         this.articleCount = articleCount;
     }
+
+    public Integer getUserPermission() {
+        return userPermission;
+    }
+
+    public void setUserPermission(Integer userPermission) {
+        this.userPermission = userPermission;
+    }
+
 }
