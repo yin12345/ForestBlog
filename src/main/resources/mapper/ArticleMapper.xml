@@ -66,6 +66,8 @@
         ORDER BY `article`.`article_order` DESC, `article`.`article_id` DESC
     </select>
 
+
+
     <delete id="deleteById" parameterType="java.lang.Integer">
         delete from
         <include refid="tb"/>

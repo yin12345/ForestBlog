@@ -63,7 +63,7 @@
                                     </figure>
 
                                     <header class="entry-header">
-                                        <h2 class="entry-title">
+                                        <h2 style="font-weight: 900;" class="entry-title">
                                             <a href="/article/${a.articleId}" rel="bookmark">
                                                     ${a.articleTitle}
                                             </a>

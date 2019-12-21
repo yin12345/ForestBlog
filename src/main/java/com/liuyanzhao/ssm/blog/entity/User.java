@@ -33,6 +33,12 @@ public class User implements Serializable{
 
     private Integer userStatus;
     private Integer userPermission;
+
+    private String user_img;
+    private int user_sex;
+    private int user_uid;
+    private String user_sign;
+
     /**
      * 文章数量（不是数据库字段）
      */
@@ -144,5 +150,37 @@ public class User implements Serializable{
 
     public void setUserPermission(Integer userPermission) {
         this.userPermission = userPermission;
+    }
+
+    public String getUser_img() {
+        return user_img;
+    }
+
+    public void setUser_img(String user_img) {
+        this.user_img = user_img;
+    }
+
+    public int getUser_sex() {
+        return user_sex;
+    }
+
+    public void setUser_sex(int user_sex) {
+        this.user_sex = user_sex;
+    }
+
+    public int getUser_uid() {
+        return user_uid;
+    }
+
+    public void setUser_uid(int user_uid) {
+        this.user_uid = user_uid;
+    }
+
+    public String getUser_sign() {
+        return user_sign;
+    }
+
+    public void setUser_sign(String user_sign) {
+        this.user_sign = user_sign;
     }
 }

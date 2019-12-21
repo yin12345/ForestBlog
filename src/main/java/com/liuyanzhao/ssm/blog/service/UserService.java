@@ -17,6 +17,8 @@ public interface UserService {
      */
     List<User> listUser();
 
+
+    List<User> listWatcherUser(Integer user1_id);
     /**
      * 根据id查询用户信息
      *
@@ -70,4 +72,6 @@ public interface UserService {
      * @return 用户
      */
     User getUserByEmail(String email);
+
+    List<User> listfan(Integer userId);
 }

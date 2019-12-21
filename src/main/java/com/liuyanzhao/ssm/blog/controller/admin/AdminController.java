@@ -91,6 +91,7 @@ public class AdminController {
         } else {
             //登录成功
             int permission=user.getUserPermission();
+            int id =user.getUserId();
             map.put("code",1);
             map.put("msg","");
             //添加session
@@ -105,7 +106,7 @@ public class AdminController {
                 pwdCookie.setMaxAge(60 * 60 * 24 * 3);
                 HttpSession session=request.getSession();
                 session.setAttribute("permission",permission);
-
+                session.setAttribute("id",id);
                 response.addCookie(nameCookie);
                 response.addCookie(pwdCookie);
 
@@ -131,6 +132,7 @@ public class AdminController {
         session.invalidate();
         return "redirect:/login";
     }
+
 
 
 }

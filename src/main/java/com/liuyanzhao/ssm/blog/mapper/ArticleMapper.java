@@ -47,10 +47,7 @@ public interface ArticleMapper {
      */
     List<Article> findAll(HashMap<String, Object> criteria);
 
-    /**
-     * 文章归档
-     * @return
-     */
+
     List<Article> listAllNotWithContent();
 
     /**

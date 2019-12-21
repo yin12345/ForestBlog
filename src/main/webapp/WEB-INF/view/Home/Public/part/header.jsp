@@ -12,9 +12,24 @@
     <%--主要菜单 satrt--%>
     <div id="menu-box">
         <div id="top-menu">
-                <span class="nav-search">
-                    <i class="fa fa-search"></i>
-                </span>
+            <span class="nav-image"   style=" background: transparent;float: right;
+                line-height: 26px;
+                margin: 28px 10px 0 20px;
+                vertical-align: top;
+                border: none;
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0);" >
+                <a href="user?userId=2">
+                    <img  width="30" height="30"
+                          src="/img/thumbnail/random/img_0.jpg"
+                          class="attachment-content size-content wp-post-image"
+                          alt="${a.articleTitle}">
+                </a>
+
+            </span>
+            <span class="nav-search">
+                <i class="fa fa-search"></i>
+            </span>
+
             <div class="logo-site"><h1 class="site-title">
                 <a href="/" title="${options.optionSiteTitle}">${options.optionSiteTitle}</a>
             </h1>

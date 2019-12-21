@@ -98,12 +98,14 @@ public class ArticleController {
         return "Home/Page/articleDetail";
     }
 
-    /**
-     * 点赞增加
-     *
-     * @param id 文章ID
-     * @return 点赞量数量
-     */
+
+
+        /**
+         * 点赞增加
+         *
+         * @param id 文章ID
+         * @return 点赞量数量
+         */
     @RequestMapping(value = "/article/like/{id}", method = {RequestMethod.POST})
     @ResponseBody
     public String increaseLikeCount(@PathVariable("id") Integer id) {
