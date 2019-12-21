@@ -73,8 +73,8 @@ public class ArticleController {
         model.addAttribute("similarArticleList", similarArticleList);
 
         //猜你喜欢
-        List<Article> mostViewArticleList = articleService.listArticleByViewCount(5);
-        model.addAttribute("mostViewArticleList", mostViewArticleList);
+//        List<Article> mostViewArticleList = articleService.listArticleByViewCount(5);
+//        model.addAttribute("mostViewArticleList", mostViewArticleList);
 
         //获取下一篇文章
         Article afterArticle = articleService.getAfterArticle(articleId);
@@ -94,6 +94,9 @@ public class ArticleController {
         //获得热评文章
         List<Article> mostCommentArticleList = articleService.listArticleByCommentCount(8);
         model.addAttribute("mostCommentArticleList", mostCommentArticleList);
+
+        List<Article> recentArticleList = articleService.listRecentArticle(5);
+        model.addAttribute("recentArticleList", recentArticleList);
 
         return "Home/Page/articleDetail";
     }

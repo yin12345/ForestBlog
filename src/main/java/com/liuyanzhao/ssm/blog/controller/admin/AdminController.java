@@ -125,6 +125,4 @@ public class AdminController {
         session.invalidate();
         return "redirect:/login";
     }
-
-
 }

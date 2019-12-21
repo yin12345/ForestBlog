@@ -25,6 +25,8 @@ import java.util.List;
  */
 @Controller
 public class IndexController {
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private ArticleService articleService;
@@ -48,7 +50,15 @@ public class IndexController {
         criteria.put("status", ArticleStatus.PUBLISH.getValue());
         //文章列表
         PageInfo<Article> articleList = articleService.pageArticle(pageIndex, pageSize, criteria);
+        new Thread(() -> {
+            for (Article article : articleList.getList()) {
+                //用户信息
+                User user = userService.getUserById(article.getArticleUserId());
+                article.setUser(user);
+            }
+        }).start();
         model.addAttribute("pageInfo", articleList);
+
 
         //公告
         List<Notice> noticeList = noticeService.listNotice(NoticeStatus.NORMAL.getValue());
@@ -65,6 +75,14 @@ public class IndexController {
         List<Comment> recentCommentList = commentService.listRecentComment(10);
         model.addAttribute("recentCommentList", recentCommentList);
         model.addAttribute("pageUrlPrefix", "/article?pageIndex");
+
+        //获得随机文章
+        List<Article> randomArticleList = articleService.listRandomArticle(5);
+        model.addAttribute("randomArticleList", randomArticleList);
+        //获得热评文章
+        List<Article> mostCommentArticleList = articleService.listArticleByCommentCount(5);
+        model.addAttribute("mostCommentArticleList", mostCommentArticleList);
+
         return "Home/index";
     }
 
@@ -78,6 +96,13 @@ public class IndexController {
         criteria.put("status", ArticleStatus.PUBLISH.getValue());
         criteria.put("keywords", keywords);
         PageInfo<Article> articlePageInfo = articleService.pageArticle(pageIndex, pageSize, criteria);
+        new Thread(() -> {
+            for (Article article : articlePageInfo.getList()) {
+                //用户信息
+                User user = userService.getUserById(article.getArticleUserId());
+                article.setUser(user);
+            }
+        }).start();
         model.addAttribute("pageInfo", articlePageInfo);
 
         //侧边栏显示
@@ -109,6 +134,10 @@ public class IndexController {
         return "Home/Error/500";
     }
 
+    @RequestMapping("/fix")
+    public String FixBlock(Model model) {
+        return "Home/Page/fix";
+    }
 
 }
 

@@ -94,7 +94,4 @@ public class BackMenuController {
         menuService.updateMenu(menu);
         return "redirect:/admin/menu";
     }
-
-
-
 }

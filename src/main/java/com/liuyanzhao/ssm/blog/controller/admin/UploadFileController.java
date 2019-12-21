@@ -22,7 +22,7 @@ public class UploadFileController {
     /**
      * 文件保存目录，物理路径
      */
-    public final String rootPath = "/Users/liuyanzhao/Documents/uploads";
+    public final String rootPath = "/home/zhy/IdeaProjects/blog/uploads/";
 
     public final String allowSuffix = ".bmp.jpg.jpeg.png.gif.pdf.doc.zip.rar.gz";
 
@@ -57,6 +57,8 @@ public class UploadFileController {
 
         //目标文件
         File descFile = new File(rootPath + File.separator + dateDirs + File.separator + filename);
+        log.debug(rootPath + File.separator + dateDirs + File.separator + filename);
+
         int i = 1;
         //若文件存在重命名
         String newFilename = filename;

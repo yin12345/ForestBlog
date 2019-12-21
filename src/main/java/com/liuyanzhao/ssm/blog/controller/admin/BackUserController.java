@@ -176,14 +176,11 @@ public class BackUserController {
      *
      * @return
      */
-    @RequestMapping(value = "/profile")
-    public ModelAndView userProfileView(HttpSession session)  {
-
+    @RequestMapping(value = "/profile/{id}")
+    public ModelAndView userProfileView(@PathVariable("id") Integer id)  {
         ModelAndView modelAndView = new ModelAndView();
-        User sessionUser = (User) session.getAttribute("user");
-        User user =  userService.getUserById(sessionUser.getUserId());
+        User user =  userService.getUserById(id);
         modelAndView.addObject("user",user);
-
         modelAndView.setViewName("Admin/User/profile");
         return modelAndView;
     }
