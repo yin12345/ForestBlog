@@ -50,6 +50,7 @@
     <%@ include file="part/header.jsp" %>
 
     <div id="content" class="site-content" style="transform: none;">
+
         <rapid:block name="left">
 
         </rapid:block>
@@ -65,13 +66,13 @@
 
 </div>
 
-<rapid:block name="footer-script"></rapid:block>
-
 <script src="/js/jquery.min.js"></script>
 <script src="/js/superfish.js"></script>
 <script src='/js/sticky.js'></script>
-<script src="/js/script.js"></script>
 <script src="/plugin/layui/layui.all.js"></script>
+<script src="/js/script.js"></script>
+<rapid:block name="footer-script"></rapid:block>
+
 <script>
     layui.use(['util', 'laydate', 'layer'], function(){
         var util = layui.util

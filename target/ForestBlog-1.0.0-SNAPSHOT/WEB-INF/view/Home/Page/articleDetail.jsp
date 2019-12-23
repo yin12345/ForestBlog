@@ -48,15 +48,15 @@
 
 
 <rapid:override name="left">
-    <%--    文章左侧悬浮按钮--%>
-    <div class="article-floating-button-group">
+
+    <div class="article-floating-button-group" style="left: calc((100vw - 1180px) / 2 - 78px)!important;">
         <div style="margin-bottom: 15px;">
             <button class="circle-button" onclick="increaseLikeCount()">
                 <i name="image" class="layui-icon layui-icon-praise"></i>
             </button>
             <span>
-                赞  <i class="count" id="count-${article.articleId}">${article.articleLikeCount}</i>
-            </span>
+                    赞  <i class="count" id="count-${article.articleId}">${article.articleLikeCount}</i>
+                </span>
         </div>
         <div>
             <button id="share-button" class="circle-button">
@@ -66,7 +66,8 @@
         </div>
 
     </div>
-    <div id="share" style="position: fixed; width: 50px; top:300px; left: 120px;z-index: 1">
+    <div id="share" style="position: fixed; width: 50px; top:300px; z-index: 1;
+    left: calc((100vw - 1180px)/2 - 28px);">
         <ul class="bdsharebuttonbox bdshare-button-style1-16">
             <li><a title="分享到QQ空间" class="fa fa-qq" data-cmd="qzone" onclick="return false;"
                    href="#"></a></li>
@@ -87,6 +88,7 @@
 
     <%--博客主体-左侧文章正文 start--%>
     <div id="primary" class="content-area">
+
         <main id="main" class="site-main" role="main">
             <article class="post" id="articleDetail" data-id="${article.articleId}">
                 <header class="entry-header">
@@ -330,9 +332,9 @@
                     <c:forEach items="${commentList}" var="c">
                         <c:if test="${c.commentPid == 0}">
                             <c:set var="floor" value="${floor + 1}"/>
-<%--                            <li class="comments-anchor">--%>
-<%--                                <ul id="anchor-comment-${c.commentId}"></ul>--%>
-<%--                            </li>--%>
+                            <%--                            <li class="comments-anchor">--%>
+                            <%--                                <ul id="anchor-comment-${c.commentId}"></ul>--%>
+                            <%--                            </li>--%>
                             <li class="comment">
                                 <div id="div-comment-${c.commentId}" class="comment-body">
                                     <div class="comment-author vcard">
@@ -362,9 +364,9 @@
                                             </span>
                                         </span>
                                         <p style="font-size: 16px; margin-top: 5px;color: black">
-<%--                                            <c:if test="${c.commentPid!=0}">--%>
-<%--                                                <span class="at">@ ${c.commentPname}</span>--%>
-<%--                                            </c:if>--%>
+                                                <%--                                            <c:if test="${c.commentPid!=0}">--%>
+                                                <%--                                                <span class="at">@ ${c.commentPname}</span>--%>
+                                                <%--                                            </c:if>--%>
                                                 ${c.commentContent}
                                         </p>
                                     </div>

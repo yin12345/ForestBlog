@@ -10,7 +10,6 @@ import lombok.Data;
 @Data
 public class JsonResult<T> {
 
-
     /**
      * 错误码
      */

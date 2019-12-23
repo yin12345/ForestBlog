@@ -2,9 +2,9 @@
 .article-floating-button-group {
     position: fixed;
     width: 50px;
-    bottom: 290px;
-    left: 70px;
-    color: #969696;/*文字颜色*/
+    top: 250px;
+    left: calc((100vw - 1180px) / 2 - 78px);
+    color: #969696; /*文字颜色*/
 }
 
 /*按钮内图像*/
@@ -945,6 +945,7 @@ a, button, input {
         color: rgba(0, 150, 136, 0.01);
         border: none;
     }
+
     .mobile-login a {
         color: #999;
         margin: 7px 10px 0 0;
@@ -1404,7 +1405,7 @@ a, button, input {
     padding-left: 0px;
 }
 
- breadcrumb .fa-angle-right {
+breadcrumb .fa-angle-right {
     font-size: 16px;
     margin: 0 4px;
 }

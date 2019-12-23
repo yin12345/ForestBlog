@@ -68,6 +68,4 @@ public class CommentController {
         }
         return new JsonResult().ok();
     }
-
-
 }
