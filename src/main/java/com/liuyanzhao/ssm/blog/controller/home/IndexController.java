@@ -49,6 +49,10 @@ public class IndexController {
     @Autowired
     private UsersService usersService;
 
+    @Autowired
+    private BannerService bannerService;
+
+
     @RequestMapping(value = {"/", "/article"})
     public String index(@RequestParam(required = false, defaultValue = "1") Integer pageIndex,
                         @RequestParam(required = false, defaultValue = "10") Integer pageSize, Model model) {
@@ -56,22 +60,23 @@ public class IndexController {
         criteria.put("status", ArticleStatus.PUBLISH.getValue());
         //文章列表
         PageInfo<Article> articleList = articleService.pageArticle(pageIndex, pageSize, criteria);
-        new Thread(() -> {
-            for (Article article : articleList.getList()) {
-                //用户信息
-                User user = userService.getUserById(article.getArticleUserId());
-                article.setUser(user);
-            }
-        }).start();
+        for (Article article : articleList.getList()) {
+            //用户信息
+            User user = userService.getUserById(article.getArticleUserId());
+            article.setUser(user);
+        }
         model.addAttribute("pageInfo", articleList);
 
+
+        List<Banner> linkList = bannerService.listLink();
+        model.addAttribute("linkList",linkList);
 
         //公告
         List<Notice> noticeList = noticeService.listNotice(NoticeStatus.NORMAL.getValue());
         model.addAttribute("noticeList", noticeList);
-        //友情链接
-        List<Link> linkList = linkService.listLink(LinkStatus.NORMAL.getValue());
-        model.addAttribute("linkList", linkList);
+//        //友情链接
+//        List<Link> linkList = linkService.listLink(LinkStatus.NORMAL.getValue());
+//        model.addAttribute("linkList", linkList);
 
         //侧边栏显示
         //标签列表显示
@@ -117,6 +122,7 @@ public class IndexController {
         criteria.put("status", ArticleStatus.PUBLISH.getValue());
         criteria.put("userId", userId);
         PageInfo<Article> articlePageInfo = articleService.pageArticle(pageIndex, pageSize, criteria);
+        request.setAttribute("articleNum1", articlePageInfo.getList().size());
         model.addAttribute("pageInfo", articlePageInfo);
 
         //侧边栏显示
@@ -138,11 +144,13 @@ public class IndexController {
         //获取关注的用户
         List<User> userList = userService.listWatcherUser(userId);
         System.out.println(userList);
+        request.setAttribute("watchNum1", userList.size());
         request.setAttribute("userList", userList);
 
         //获取粉丝列表
         List<User> fanList = userService.listfan(fan_id);
         System.out.println(fanList);
+        request.setAttribute("fanNum1", fanList.size());
         request.setAttribute("fanList", fanList);
 
         System.out.println("2222222");
@@ -179,6 +187,7 @@ public class IndexController {
         criteria.put("status", ArticleStatus.PUBLISH.getValue());
         criteria.put("userId", user2_id);
         PageInfo<Article> articlePageInfo = articleService.pageArticle(pageIndex, pageSize, criteria);
+        request.setAttribute("articleNum1", articlePageInfo.getList().size());
         model.addAttribute("pageInfo", articlePageInfo);
 
         //侧边栏显示
@@ -199,14 +208,96 @@ public class IndexController {
         //获取关注的用户
         List<User> userList = userService.listWatcherUser(user2_id);
         System.out.println(userList);
+        request.setAttribute("watchNum1", userList.size());
         request.setAttribute("userList", userList);
 
         //获取粉丝列表
         List<User> fanList = userService.listfan(user1_id);
         System.out.println(fanList);
+        request.setAttribute("fanNum1", fanList.size());
         request.setAttribute("fanList", fanList);
 
         return "Home/Page/userDetail";
+    }
+
+    //取消关注
+    @RequestMapping("/unwatch1")
+    public String unwatch1(@RequestParam("articleId") Integer articleId, @RequestParam(required = false, defaultValue = "1") Integer pageIndex,
+                           @RequestParam(required = false, defaultValue = "10") Integer pageSize, Model model, HttpServletRequest request) {
+
+        //文章信息，分类，标签，作者，评论
+        Article article = articleService.getArticleByStatusAndId(ArticleStatus.PUBLISH.getValue(), articleId);
+        if (article == null) {
+            return "Home/Error/404";
+        }
+        HttpSession session = request.getSession();
+        Integer fan_id = (Integer) session.getAttribute("id");
+        //用户信息
+        User user = userService.getUserById(article.getArticleUserId());
+        article.setUser(user);
+        System.out.println("111111111111");
+        //取消关注
+        usersService.unwatch(fan_id, user.getUserId());
+        //判断是否关注
+        Users users = usersService.pan(fan_id, user.getUserId());
+        if (users == null) {
+            session.setAttribute("watch", 1);
+        } else {
+            session.setAttribute("watch", 0);
+        }
+
+        //获取关注的用户
+        List<User> userList = userService.listWatcherUser(user.getUserId());
+        System.out.println(userList);
+        request.setAttribute("watchNum", userList.size());
+        //文章列表
+        HashMap<String, Object> criteria = new HashMap<>(2);
+        criteria.put("status", ArticleStatus.PUBLISH.getValue());
+        criteria.put("userId", user.getUserId());
+        PageInfo<Article> articlePageInfo = articleService.pageArticle(pageIndex, pageSize, criteria);
+        request.setAttribute("articleNum", articlePageInfo.getList().size());
+
+
+        //文章信息
+        model.addAttribute("article", article);
+
+        //评论列表
+        List<Comment> commentList = commentService.listCommentByArticleId(articleId);
+        model.addAttribute("commentList", commentList);
+
+        //相关文章
+        List<Integer> categoryIds = articleService.listCategoryIdByArticleId(articleId);
+        List<Article> similarArticleList = articleService.listArticleByCategoryIds(categoryIds, 5);
+        model.addAttribute("similarArticleList", similarArticleList);
+
+        //猜你喜欢
+//        List<Article> mostViewArticleList = articleService.listArticleByViewCount(5);
+//        model.addAttribute("mostViewArticleList", mostViewArticleList);
+
+        //获取下一篇文章
+        Article afterArticle = articleService.getAfterArticle(articleId, -1);
+        model.addAttribute("afterArticle", afterArticle);
+
+        //获取上一篇文章
+        Article preArticle = articleService.getPreArticle(articleId, -1);
+        model.addAttribute("preArticle", preArticle);
+
+        //侧边栏
+        //标签列表显示
+        List<Tag> allTagList = tagService.listTag();
+        model.addAttribute("allTagList", allTagList);
+        //获得随机文章
+        List<Article> randomArticleList = articleService.listRandomArticle(8);
+        model.addAttribute("randomArticleList", randomArticleList);
+        //获得热评文章
+        List<Article> mostCommentArticleList = articleService.listArticleByCommentCount(8);
+        model.addAttribute("mostCommentArticleList", mostCommentArticleList);
+
+        List<Article> recentArticleList = articleService.listRecentArticle(5);
+        model.addAttribute("recentArticleList", recentArticleList);
+
+
+        return "Home/Page/articleDetail";
     }
 
     //关注
@@ -238,6 +329,7 @@ public class IndexController {
         criteria.put("status", ArticleStatus.PUBLISH.getValue());
         criteria.put("userId", user2_id);
         PageInfo<Article> articlePageInfo = articleService.pageArticle(pageIndex, pageSize, criteria);
+        request.setAttribute("articleNum1", articlePageInfo.getList().size());
         model.addAttribute("pageInfo", articlePageInfo);
 
         //侧边栏显示
@@ -258,14 +350,100 @@ public class IndexController {
         //获取关注的用户
         List<User> userList = userService.listWatcherUser(user2_id);
         System.out.println(userList);
+        request.setAttribute("watchNum1", userList.size());
         request.setAttribute("userList", userList);
 
         //获取粉丝列表
         List<User> fanList = userService.listfan(user1_id);
         System.out.println(fanList);
+        request.setAttribute("fanNum1", fanList.size());
         request.setAttribute("fanList", fanList);
 
         return "Home/Page/userDetail";
+    }
+
+    //关注
+    @RequestMapping("/watch1")
+    public String watch1(@RequestParam("articleId") Integer articleId, @RequestParam(required = false, defaultValue = "1") Integer pageIndex,
+                         @RequestParam(required = false, defaultValue = "10") Integer pageSize, Model model, HttpServletRequest request) {
+
+        //文章信息，分类，标签，作者，评论
+        Article article = articleService.getArticleByStatusAndId(ArticleStatus.PUBLISH.getValue(), articleId);
+        if (article == null) {
+            return "Home/Error/404";
+        }
+        HttpSession session = request.getSession();
+        Integer fan_id = (Integer) session.getAttribute("id");
+        //用户信息
+        User user = userService.getUserById(article.getArticleUserId());
+        article.setUser(user);
+        System.out.println("111111111111");
+        //关注
+
+        Integer user1_id = (Integer) session.getAttribute("id");
+
+        Users users1 = usersService.getUsersByuser1_idanduser2_id(fan_id, user.getUserId());
+
+        //判断是否关注
+        Users users = usersService.pan(fan_id, user.getUserId());
+        if (users == null) {
+            session.setAttribute("watch", 1);
+        } else {
+            session.setAttribute("watch", 0);
+        }
+
+        //获取关注的用户
+        List<User> userList = userService.listWatcherUser(user.getUserId());
+        System.out.println(userList);
+        request.setAttribute("watchNum", userList.size());
+        //文章列表
+        HashMap<String, Object> criteria = new HashMap<>(2);
+        criteria.put("status", ArticleStatus.PUBLISH.getValue());
+        criteria.put("userId", user.getUserId());
+        PageInfo<Article> articlePageInfo = articleService.pageArticle(pageIndex, pageSize, criteria);
+        request.setAttribute("articleNum", articlePageInfo.getList().size());
+
+
+        //文章信息
+        model.addAttribute("article", article);
+
+        //评论列表
+        List<Comment> commentList = commentService.listCommentByArticleId(articleId);
+        model.addAttribute("commentList", commentList);
+
+        //相关文章
+        List<Integer> categoryIds = articleService.listCategoryIdByArticleId(articleId);
+        List<Article> similarArticleList = articleService.listArticleByCategoryIds(categoryIds, 5);
+        model.addAttribute("similarArticleList", similarArticleList);
+
+        //猜你喜欢
+//        List<Article> mostViewArticleList = articleService.listArticleByViewCount(5);
+//        model.addAttribute("mostViewArticleList", mostViewArticleList);
+
+        //获取下一篇文章
+        Article afterArticle = articleService.getAfterArticle(articleId, -1);
+        model.addAttribute("afterArticle", afterArticle);
+
+        //获取上一篇文章
+        Article preArticle = articleService.getPreArticle(articleId, -1);
+        model.addAttribute("preArticle", preArticle);
+
+        //侧边栏
+        //标签列表显示
+        List<Tag> allTagList = tagService.listTag();
+        model.addAttribute("allTagList", allTagList);
+        //获得随机文章
+        List<Article> randomArticleList = articleService.listRandomArticle(8);
+        model.addAttribute("randomArticleList", randomArticleList);
+        //获得热评文章
+        List<Article> mostCommentArticleList = articleService.listArticleByCommentCount(8);
+        model.addAttribute("mostCommentArticleList", mostCommentArticleList);
+
+        List<Article> recentArticleList = articleService.listRecentArticle(5);
+        model.addAttribute("recentArticleList", recentArticleList);
+
+
+        return "Home/Page/articleDetail";
     }
 
     @RequestMapping(value = "/search")
@@ -278,13 +456,11 @@ public class IndexController {
         criteria.put("status", ArticleStatus.PUBLISH.getValue());
         criteria.put("keywords", keywords);
         PageInfo<Article> articlePageInfo = articleService.pageArticle(pageIndex, pageSize, criteria);
-        new Thread(() -> {
-            for (Article article : articlePageInfo.getList()) {
-                //用户信息
-                User user = userService.getUserById(article.getArticleUserId());
-                article.setUser(user);
-            }
-        }).start();
+        for (Article article : articlePageInfo.getList()) {
+            //用户信息
+            User user = userService.getUserById(article.getArticleUserId());
+            article.setUser(user);
+        }
         model.addAttribute("pageInfo", articlePageInfo);
 
         //侧边栏显示
@@ -314,11 +490,6 @@ public class IndexController {
     public String ServerError(@RequestParam(required = false) String message, Model model) {
         model.addAttribute("message", message);
         return "Home/Error/500";
-    }
-
-    @RequestMapping("/fix")
-    public String FixBlock(Model model) {
-        return "Home/Page/fix";
     }
 
 }

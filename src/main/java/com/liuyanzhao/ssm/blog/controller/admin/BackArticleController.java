@@ -4,6 +4,7 @@ import cn.hutool.http.HtmlUtil;
 import com.github.pagehelper.PageInfo;
 import com.liuyanzhao.ssm.blog.dto.ArticleParam;
 import com.liuyanzhao.ssm.blog.entity.Article;
+import com.liuyanzhao.ssm.blog.enums.ArticleStatus;
 import com.liuyanzhao.ssm.blog.service.ArticleService;
 import com.liuyanzhao.ssm.blog.service.CategoryService;
 import com.liuyanzhao.ssm.blog.service.TagService;
@@ -11,6 +12,7 @@ import com.liuyanzhao.ssm.blog.service.TagService;
 import com.liuyanzhao.ssm.blog.entity.Category;
 import com.liuyanzhao.ssm.blog.entity.Tag;
 import com.liuyanzhao.ssm.blog.entity.User;
+import com.liuyanzhao.ssm.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +40,8 @@ public class BackArticleController {
 
     @Autowired
     private TagService tagService;
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private CategoryService categoryService;
@@ -62,6 +67,22 @@ public class BackArticleController {
         return "Admin/Article/index";
     }
 
+    @RequestMapping(value = "/userArticle")
+    public String userArticle(@RequestParam("user_id") Integer user_id, @RequestParam(required = false, defaultValue = "1") Integer pageIndex,
+                              @RequestParam(required = false, defaultValue = "10") Integer pageSize, @RequestParam(required = false) String status, Model model) {
+        //文章列表
+        HashMap<String, Object> criteria = new HashMap<>();
+        criteria.put("userId", user_id);
+        if (status == null) {
+            model.addAttribute("pageUrlPrefix", "/admin/article/userArticle?pageIndex");
+        } else {
+            criteria.put("status", status);
+            model.addAttribute("pageUrlPrefix", "/admin/article/userArticle?status=" + status + "&pageIndex");
+        }
+        PageInfo<Article> articlePageInfo = articleService.pageArticle(pageIndex, pageSize, criteria);
+        model.addAttribute("pageInfo", articlePageInfo);
+        return "Admin/Article/index";
+    }
 
     /**
      * 后台添加文章页面显示
@@ -103,6 +124,13 @@ public class BackArticleController {
         }
         article.setArticleContent(articleParam.getArticleContent());
         article.setArticleStatus(articleParam.getArticleStatus());
+        //选择图片
+
+        String img = HtmlUtil.cleanHtmlTag(articleParam.getArticleImg());
+
+            article.setArticleImg(img);
+
+
         //填充分类
         List<Category> categoryList = new ArrayList<>();
         if (articleParam.getArticleChildCategoryId() != null) {
@@ -123,7 +151,9 @@ public class BackArticleController {
         article.setTagList(tagList);
 
         articleService.insertArticle(article);
-        return "redirect:/admin/article";
+        if (user.getUserPermission() == 1)
+            return "redirect:/admin/article";
+        return "redirect:/admin/article/userArticle?user_id=" + user.getUserId();
     }
 
 
@@ -186,6 +216,13 @@ public class BackArticleController {
         } else {
             article.setArticleSummary(summaryText);
         }
+
+        //选择图片
+
+        String img = HtmlUtil.cleanHtmlTag(articleParam.getArticleImg());
+
+        article.setArticleImg(img);
+
         //填充分类
         List<Category> categoryList = new ArrayList<>();
         if (articleParam.getArticleChildCategoryId() != null) {
@@ -205,11 +242,9 @@ public class BackArticleController {
         }
         article.setTagList(tagList);
         articleService.updateArticleDetail(article);
-        return "redirect:/admin/article";
+        User user = userService.getUserById(articleParam.getArticleUserId());
+        if (user.getUserPermission() == 1)
+            return "redirect:/admin/article";
+        return "redirect:/admin/article/userArticle?user_id=" + user.getUserId();
     }
-
-
 }
-
-
-

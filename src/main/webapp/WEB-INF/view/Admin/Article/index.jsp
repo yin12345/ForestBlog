@@ -72,12 +72,12 @@
                         <td>
                             <c:choose>
                                 <c:when test="${a.articleStatus == 1}">
-                                    <a href="/admin/article?status=1">
+                                    <a href="/admin/article/userArticle?status=1?userId=${sessionScope.user.userId}">
                                         <span style="color:#5FB878;">已发布</span>
                                     </a>
                                 </c:when>
                                 <c:otherwise>
-                                    <a href="/admin/article?status=0">
+                                    <a href="/admin/article/userArticle?status=0?userId=${sessionScope.user.userId}">
                                         <span style="color:#FF5722;">草稿</span>
                                     </a>
                                 </c:otherwise>

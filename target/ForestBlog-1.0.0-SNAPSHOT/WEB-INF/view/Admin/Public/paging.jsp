@@ -28,10 +28,19 @@
                     <%--当前页为第一页，隐藏上一页按钮--%>
                 </c:when>
                 <c:otherwise>
-                    <a class="page-numbers"
-                       href="${pageUrlPrefix}=${pageInfo.pageNum-1}">
-                        <i class="layui-icon">&#xe603;</i>
-                    </a>
+                    <c:if test="${sessionScope.user.userPermission == 1}">
+                        <a class="page-numbers"
+                           href="${pageUrlPrefix}=${pageInfo.pageNum-1}&user_id=${sessionScope.user.userId}">
+                            <i class="layui-icon">&#xe603;</i>
+                        </a>
+                    </c:if>
+                    <c:if test="${sessionScope.user.userPermission != 1}">
+                        <a class="page-numbers"
+                           href="${pageUrlPrefix}=${pageInfo.pageNum-1}">
+                            <i class="layui-icon">&#xe603;</i>
+                        </a>
+                    </c:if>
+
                 </c:otherwise>
             </c:choose>
                 <%--显示第一页的页码--%>
@@ -49,7 +58,14 @@
                         <a class="page-numbers current">${i}</a>
                     </c:when>
                     <c:otherwise>
-                        <a class="page-numbers" href="${pageUrlPrefix}=${i}">${i}</a>
+                        <c:if test="${sessionScope.user.userPermission != 1}">
+                            <a class="page-numbers"
+                               href="${pageUrlPrefix}=${i}&user_id=${sessionScope.user.userId}">${i}</a>
+                        </c:if>
+                        <c:if test="${sessionScope.user.userPermission == 1}">
+                            <a class="page-numbers" href="${pageUrlPrefix}=${i}">${i}</a>
+                        </c:if>
+
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
@@ -68,12 +84,21 @@
                 <c:when test="${pageInfo.pageNum eq pageInfo.pages }">
                     <%--到了尾页隐藏，下一页按钮--%>
                 </c:when>
-                <c:otherwise>
+            <c:otherwise>
+                <c:if test="${sessionScope.user.userPermission != 1}">
+                     <a class="page-numbers"
+                       href="${pageUrlPrefix}=${pageInfo.pageNum+1}&user_id=${sessionScope.user.userId}">
+                        <i class="layui-icon">&#xe602;</i>
+                     </a>
+                </c:if>
+                <c:if test="${sessionScope.user.userPermission == 1}">
                     <a class="page-numbers"
                        href="${pageUrlPrefix}=${pageInfo.pageNum+1}">
                         <i class="layui-icon">&#xe602;</i>
                     </a>
-                </c:otherwise>
+                 </c:if>
+
+            </c:otherwise>
             </c:choose>
 
         </div>

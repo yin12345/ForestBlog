@@ -40,6 +40,8 @@ public class Article implements Serializable{
 
     private String articleSummary;
 
+    private String articleImg;
+
     private User user;
 
     private List<Tag> tagList;
@@ -152,6 +154,14 @@ public class Article implements Serializable{
 
     public void setArticleSummary(String articleSummary) {
         this.articleSummary = articleSummary;
+    }
+
+    public String getArticleImg() {
+        return articleImg;
+    }
+
+    public void setArticleImg(String articleImg) {
+        this.articleImg = articleImg;
     }
 
     public User getUser() {

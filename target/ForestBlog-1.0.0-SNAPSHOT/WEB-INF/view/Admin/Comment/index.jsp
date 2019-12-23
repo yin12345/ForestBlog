@@ -17,6 +17,7 @@
         .layui-table {
             margin-top: 0;
         }
+
     </style>
 </rapid:override>
 
@@ -49,12 +50,8 @@
             <c:forEach items="${pageInfo.list}" var="c">
                 <tr>
                     <td>
-                        <img src="${c.commentAuthorAvatar}" alt="" width="64px">
+                        <img src="${c.commentAuthorAvatar}" alt="" width="64px"><br>
                         <strong>${c.commentAuthorName}</strong>
-                        <br>
-                            ${c.commentAuthorUrl} <br>
-                            ${c.commentAuthorEmail} <br>
-                            ${c.commentIp}
                     </td>
                     <td class="dashboard-comment-wrap">
                         <c:if test="${c.commentPid!=0}">

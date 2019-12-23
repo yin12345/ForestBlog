@@ -1,7 +1,9 @@
 package com.liuyanzhao.ssm.blog.controller.admin;
 
 
+import com.liuyanzhao.ssm.blog.entity.Banner;
 import com.liuyanzhao.ssm.blog.entity.Link;
+import com.liuyanzhao.ssm.blog.service.BannerService;
 import com.liuyanzhao.ssm.blog.service.LinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,8 @@ public class BackLinkController {
 
     @Autowired
     private LinkService linkService;
+    @Autowired
+    private BannerService bannerService;
 
     /**
      * 后台链接列表显示
@@ -33,7 +37,7 @@ public class BackLinkController {
     public ModelAndView linkList()  {
         ModelAndView modelandview = new ModelAndView();
 
-        List<Link> linkList = linkService.listLink(null);
+        List<Banner> linkList = bannerService.listLink();
         modelandview.addObject("linkList",linkList);
 
         modelandview.setViewName("Admin/Link/index");
@@ -50,7 +54,8 @@ public class BackLinkController {
     public ModelAndView insertLinkView()  {
         ModelAndView modelAndView = new ModelAndView();
 
-        List<Link> linkList = linkService.listLink(null);
+        List<Banner> linkList = bannerService.listLink();
+
         modelAndView.addObject("linkList",linkList);
 
         modelAndView.setViewName("Admin/Link/insert");
@@ -60,15 +65,14 @@ public class BackLinkController {
     /**
      * 后台添加链接页面提交
      *
-     * @param link 链接
+     * @param banner 链接
      * @return 响应
      */
     @RequestMapping(value = "/insertSubmit",method = RequestMethod.POST)
-    public String insertLinkSubmit(Link link)  {
-        link.setLinkCreateTime(new Date());
-        link.setLinkUpdateTime(new Date());
-        link.setLinkStatus(1);
-        linkService.insertLink(link);
+    public String insertLinkSubmit(Banner banner)  {
+
+        bannerService.insertBanner(banner);
+       // linkService.insertLink();
         return "redirect:/admin/link/insert";
     }
 
@@ -80,8 +84,8 @@ public class BackLinkController {
      */
     @RequestMapping(value = "/delete/{id}")
     public String deleteLink(@PathVariable("id") Integer id)  {
-
-        linkService.deleteLink(id);
+        bannerService.deleteBanner(id);
+        //linkService.deleteLink(id);
         return "redirect:/admin/link";
     }
 
@@ -94,11 +98,12 @@ public class BackLinkController {
     @RequestMapping(value = "/edit/{id}")
     public ModelAndView editLinkView(@PathVariable("id") Integer id)  {
         ModelAndView modelAndView = new ModelAndView();
-
-        Link linkCustom =  linkService.getLinkById(id);
+        Banner linkCustom=bannerService.getBannerById(id);
+        //Link linkCustom =  linkService.getLinkById(id);
         modelAndView.addObject("linkCustom",linkCustom);
 
-        List<Link> linkList = linkService.listLink(null);
+        List<Banner> linkList = bannerService.listLink();
+        //List<Link> linkList = linkService.listLink(null);
         modelAndView.addObject("linkList",linkList);
 
         modelAndView.setViewName("Admin/Link/edit");
@@ -109,13 +114,13 @@ public class BackLinkController {
     /**
      * 编辑链接提交
      *
-     * @param link 链接
+     * @param banner 链接
      * @return 响应
      */
     @RequestMapping(value = "/editSubmit",method = RequestMethod.POST)
-    public String editLinkSubmit(Link link)  {
-        link.setLinkUpdateTime(new Date());
-        linkService.updateLink(link);
+    public String editLinkSubmit(Banner banner)  {
+       bannerService.updateBanner(banner);
+       // linkService.updateLink(link);
         return "redirect:/admin/link";
     }
 }

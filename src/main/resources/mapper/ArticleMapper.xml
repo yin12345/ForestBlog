@@ -15,13 +15,14 @@
         <result column="article_create_time" property="articleCreateTime" jdbcType="TIMESTAMP"/>
         <result column="article_update_time" property="articleUpdateTime" jdbcType="TIMESTAMP"/>
         <result column="article_status" property="articleStatus" jdbcType="INTEGER"/>
+        <result column="article_img" property="articleImg" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="tb">article</sql>
 
     <sql id="Base_Column_List">
     article_id, article_user_id, article_title, article_content,article_summary, article_view_count, article_comment_count, article_like_count, article_create_time,
-    article_update_time, article_is_comment, article_status, article_order
+    article_update_time, article_is_comment, article_status, article_order,article_img
     </sql>
 
 
@@ -93,14 +94,14 @@
         article_view_count, article_comment_count,
         article_like_count, article_create_time, article_update_time,
         article_is_comment, article_status, article_order,
-        article_content, article_summary)
+        article_content, article_summary,article_img)
         values (#{articleUserId,jdbcType=INTEGER}, #{articleTitle,jdbcType=VARCHAR},
         #{articleViewCount,jdbcType=INTEGER},
         #{articleCommentCount,jdbcType=INTEGER},
         #{articleLikeCount,jdbcType=INTEGER}, #{articleCreateTime,jdbcType=TIMESTAMP},
         #{articleUpdateTime,jdbcType=TIMESTAMP},
         #{articleIsComment,jdbcType=INTEGER}, #{articleStatus,jdbcType=INTEGER}, #{articleOrder,jdbcType=INTEGER},
-        #{articleContent,jdbcType=LONGVARCHAR}, #{articleSummary,jdbcType=VARCHAR})
+        #{articleContent,jdbcType=LONGVARCHAR}, #{articleSummary,jdbcType=VARCHAR},#{articleImg,jdbcType=VARCHAR})
     </insert>
 
 
@@ -120,6 +121,7 @@
             <if test="articleOrder != null">article_order = #{articleOrder,jdbcType=INTEGER},</if>
             <if test="articleContent != null">article_content = #{articleContent,jdbcType=LONGVARCHAR},</if>
             <if test="articleSummary != null">article_summary = #{articleSummary,jdbcType=VARCHAR},</if>
+            <if test="articleImg != null">article_img = #{articleImg,jdbcType=VARCHAR},</if>
         </set>
         where article_id = #{articleId,jdbcType=INTEGER}
     </update>
@@ -209,10 +211,16 @@
         <include refid="tb"/>
         <where>
             article_id > #{id} AND article_status = 1
+            <if test="userId != -1">
+
+              AND article_user_id =#{userId}
+            </if>
         </where>
         ORDER BY article_id
         limit 1
     </select>
+
+
     <!--获得上一篇的文章-->
     <select id="getPreArticle" resultType="com.liuyanzhao.ssm.blog.entity.Article">
         SELECT
@@ -221,8 +229,11 @@
         <include refid="tb"/>
         <where>
             article_id &lt; #{id} AND article_status = 1
+            <if test="userId != -1">
+                AND article_user_id =#{userId}
+            </if>
         </where>
-        ORDER BY article_id
+        ORDER BY article_id desc
         limit 1
     </select>
 

@@ -63,12 +63,12 @@
                         <input type="text" name="categoryDescription" value="${category.categoryDescription}"  class="layui-input" >
                     </div>
                     <br>
-                    <div class="layui-input-block">
-                        图标样式
-                        <input type="text" name="categoryIcon" value="${category.categoryIcon}"class="layui-input" >
-                    </div>
-                    <br>
-                    <br>
+<%--                    <div class="layui-input-block">--%>
+<%--                        图标样式--%>
+<%--                        <input type="text" name="categoryIcon" value="${category.categoryIcon}"class="layui-input" >--%>
+<%--                    </div>--%>
+<%--                    <br>--%>
+<%--                    <br>--%>
                     <div class="layui-input-block">
                         <button class="layui-btn" lay-filter="formDemo" type="submit">保存</button>
                     </div>
@@ -140,19 +140,16 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <blockquote class="layui-elem-quote layui-quote-nm">
-                温馨提示：
-                <ul>
-                    <li>分类最多只有两级，一级分类pid=0，二级分类pid=其父节点id</li>
-                    <li>如果该分类包含文章，将不可删除</li>
-                </ul>
-            </blockquote>
+<%--            <blockquote class="layui-elem-quote layui-quote-nm">--%>
+<%--                温馨提示：--%>
+<%--                <ul>--%>
+<%--                    <li>分类最多只有两级，一级分类pid=0，二级分类pid=其父节点id</li>--%>
+<%--                    <li>如果该分类包含文章，将不可删除</li>--%>
+<%--                </ul>--%>
+<%--            </blockquote>--%>
         </div>
 
     </div>
-
-
-
 
 
 

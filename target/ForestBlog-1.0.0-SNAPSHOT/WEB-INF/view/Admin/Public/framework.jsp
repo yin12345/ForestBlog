@@ -12,33 +12,49 @@
     <link rel="shortcut icon" href="/img/logo.png">
     <title>
         ${options.optionSiteTitle}后台
-            <rapid:block name="title"></rapid:block>
+        <rapid:block name="title"></rapid:block>
     </title>
     <link rel="stylesheet" href="/plugin/layui/css/layui.css">
     <link rel="stylesheet" href="/css/back.css">
     <link rel="stylesheet" href="/plugin/font-awesome/css/font-awesome.min.css">
-    <rapid:block name="header-style"></rapid:block>
-    <rapid:block name="header-script"></rapid:block>
+    <style>
+        table th, table td {
+            vertical-align: middle;
+        }
+    </style>
+    <rapid:block name="header-style">
+
+    </rapid:block>
+    <rapid:block name="header-script">
+
+    </rapid:block>
 </head>
 <body>
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <div class="layui-logo"><a href="/admin" style="color:#009688;">
-        ${options.optionSiteTitle}后台
+
+        <div class="layui-logo">
+            <c:if test="${sessionScope.user.userPermission==1}">
+                <a href="/admin/article" style="color:#009688;">
+            </c:if>
+            <c:if test="${sessionScope.user.userPermission==0}">
+                <a href="/admin/article/userArticle?user_id=${sessionScope.user.userId}" style="color:#009688;">
+            </c:if>
+            ${options.optionSiteTitle}后台
         </a>
         </div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item"><a href="/" target="_blank">前台</a></li>
             <%--<li class="layui-nav-item">--%>
-                <%--<a href="javascript:;">新建</a>--%>
-                <%--<dl class="layui-nav-child">--%>
-                    <%--<dd><a href="/admin/article/insert">文章</a></dd>--%>
-                    <%--<dd><a href="/admin/page/insert">页面</a></dd>--%>
-                    <%--<dd><a href="/admin/category/insert">分类</a></dd>--%>
-                    <%--<dd><a href="/admin/notice/insert">公告</a></dd>--%>
-                    <%--<dd><a href="/admin/link/insert">链接</a></dd>--%>
-                <%--</dl>--%>
+            <%--<a href="javascript:;">新建</a>--%>
+            <%--<dl class="layui-nav-child">--%>
+            <%--<dd><a href="/admin/article/insert">文章</a></dd>--%>
+            <%--<dd><a href="/admin/page/insert">页面</a></dd>--%>
+            <%--<dd><a href="/admin/category/insert">分类</a></dd>--%>
+            <%--<dd><a href="/admin/notice/insert">公告</a></dd>--%>
+            <%--<dd><a href="/admin/link/insert">链接</a></dd>--%>
+            <%--</dl>--%>
             <%--</li>--%>
         </ul>
         <ul class="layui-nav layui-layout-right">
@@ -49,22 +65,29 @@
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="/admin/user/profile/${sessionScope.user.userId}">基本资料</a></dd>
+                    <dd>
+                        <a href="/admin/logout">登出</a>
+                    </dd>
                 </dl>
+
             </li>
-            <li class="layui-nav-item">
-                <a href="/admin/logout">登出</a>
-            </li>
+
         </ul>
     </div>
 
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">文章</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/admin/article?">全部文章</a></dd>
+                        <c:if test="${sessionScope.user.userPermission == 1}">
+                            <dd><a href="/admin/article">全部文章</a></dd>
+                        </c:if>
+                        <c:if test="${sessionScope.user.userPermission != 1}">
+                            <dd><a href="/admin/article/userArticle?user_id=${sessionScope.user.userId}">全部文章</a></dd>
+                        </c:if>
                         <dd><a href="/admin/article/insert">写文章</a></dd>
                         <c:if test="${sessionScope.permission==1}">
                             <dd><a href="/admin/category">全部分类</a></dd>
@@ -74,27 +97,30 @@
                     </dl>
                 </li>
                 <%--<li class="layui-nav-item">--%>
-                    <%--<a href="javascript:;">页面</a>--%>
-                    <%--<dl class="layui-nav-child">--%>
-                        <%--<dd><a href="/admin/page">全部页面</a></dd>--%>
-                        <%--<dd><a href="/admin/page/insert">添加页面</a></dd>--%>
-                    <%--</dl>--%>
+                <%--<a href="javascript:;">页面</a>--%>
+                <%--<dl class="layui-nav-child">--%>
+                <%--<dd><a href="/admin/page">全部页面</a></dd>--%>
+                <%--<dd><a href="/admin/page/insert">添加页面</a></dd>--%>
+                <%--</dl>--%>
                 <%--</li>--%>
+                <li class="layui-nav-item">
+                    <c:if test="${sessionScope.permission==1}">
+                        <a class="" href="javascript:;">
+                            横幅
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="/admin/link">全部横幅</a></dd>
+                            <dd><a href="/admin/link/insert">添加横幅</a></dd>
+                        </dl>
+                    </c:if>
+
+                </li>
                 <%--<li class="layui-nav-item">--%>
-                    <%--<a class="" href="javascript:;">--%>
-                        <%--链接--%>
-                    <%--</a>--%>
-                    <%--<dl class="layui-nav-child">--%>
-                        <%--<dd><a href="/admin/link">全部链接</a></dd>--%>
-                        <%--<dd><a href="/admin/link/insert">添加链接</a></dd>--%>
-                    <%--</dl>--%>
-                <%--</li>--%>
-                <%--<li class="layui-nav-item">--%>
-                    <%--<a href="javascript:;">公告</a>--%>
-                    <%--<dl class="layui-nav-child">--%>
-                        <%--<dd><a href="/admin/notice">全部公告</a></dd>--%>
-                        <%--<dd><a href="/admin/notice/insert">添加公告</a></dd>--%>
-                    <%--</dl>--%>
+                <%--<a href="javascript:;">公告</a>--%>
+                <%--<dl class="layui-nav-child">--%>
+                <%--<dd><a href="/admin/notice">全部公告</a></dd>--%>
+                <%--<dd><a href="/admin/notice/insert">添加公告</a></dd>--%>
+                <%--</dl>--%>
                 <%--</li>--%>
                 <li class="layui-nav-item">
                     <a href="/admin/comment">
@@ -114,11 +140,11 @@
                 </c:if>
 
                 <%--<li class="layui-nav-item">--%>
-                    <%--<a href="javascript:;">设置</a>--%>
-                    <%--<dl class="layui-nav-child">--%>
-                        <%--<dd><a href="/admin/menu">菜单</a></dd>--%>
-                        <%--<dd><a href="/admin/options">主要选项</a></dd>--%>
-                    <%--</dl>--%>
+                <%--<a href="javascript:;">设置</a>--%>
+                <%--<dl class="layui-nav-child">--%>
+                <%--<dd><a href="/admin/menu">菜单</a></dd>--%>
+                <%--<dd><a href="/admin/options">主要选项</a></dd>--%>
+                <%--</dl>--%>
                 <%--</li>--%>
             </ul>
         </div>

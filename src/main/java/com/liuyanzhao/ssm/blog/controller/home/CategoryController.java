@@ -3,15 +3,14 @@ package com.liuyanzhao.ssm.blog.controller.home;
 
 import com.github.pagehelper.PageInfo;
 
+import com.liuyanzhao.ssm.blog.entity.User;
 import com.liuyanzhao.ssm.blog.enums.ArticleStatus;
 
 
 import com.liuyanzhao.ssm.blog.entity.Article;
 import com.liuyanzhao.ssm.blog.entity.Category;
 import com.liuyanzhao.ssm.blog.entity.Tag;
-import com.liuyanzhao.ssm.blog.service.ArticleService;
-import com.liuyanzhao.ssm.blog.service.CategoryService;
-import com.liuyanzhao.ssm.blog.service.TagService;
+import com.liuyanzhao.ssm.blog.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,6 +37,9 @@ public class CategoryController {
 
     @Autowired
     private TagService tagService;
+    @Autowired
+    private UserService userService;
+
 
     /**
      * 根据分类查询文章
@@ -64,7 +66,11 @@ public class CategoryController {
         criteria.put("status", ArticleStatus.PUBLISH.getValue());
         PageInfo<Article> articlePageInfo = articleService.pageArticle(pageIndex, pageSize, criteria);
         model.addAttribute("pageInfo", articlePageInfo);
-
+        for (Article article : articlePageInfo.getList()) {
+            //用户信息
+            User user = userService.getUserById(article.getArticleUserId());
+            article.setUser(user);
+        }
         //侧边栏
         //标签列表显示
         List<Tag> allTagList = tagService.listTag();
@@ -75,7 +81,7 @@ public class CategoryController {
         //获得热评文章
         List<Article> mostCommentArticleList = articleService.listArticleByCommentCount(8);
         model.addAttribute("mostCommentArticleList", mostCommentArticleList);
-        model.addAttribute("pageUrlPrefix", "/category/"+pageIndex+"?pageIndex");
+        model.addAttribute("pageUrlPrefix", "/category/" + pageIndex + "?pageIndex");
         return "Home/Page/articleListByCategory";
     }
 

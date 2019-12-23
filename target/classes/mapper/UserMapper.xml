@@ -45,11 +45,11 @@
         (user_id, user_name, user_pass,
         user_nickname, user_email, user_url,
         user_avatar, user_last_login_ip, user_register_time,
-        user_last_login_time, user_status)
+        user_last_login_time, user_status,user_permission)
         values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPass,jdbcType=VARCHAR},
         #{userNickname,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, #{userUrl,jdbcType=VARCHAR},
         #{userAvatar,jdbcType=VARCHAR}, #{userLastLoginIp,jdbcType=VARCHAR}, #{userRegisterTime,jdbcType=TIMESTAMP},
-        #{userLastLoginTime,jdbcType=TIMESTAMP}, #{userStatus,jdbcType=INTEGER})
+        #{userLastLoginTime,jdbcType=TIMESTAMP}, #{userStatus,jdbcType=INTEGER},#{userPermission,jdbcType=INTEGER})
     </insert>
 
     <update id="update" parameterType="com.liuyanzhao.ssm.blog.entity.User">

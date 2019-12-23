@@ -53,7 +53,7 @@
                                     <figure class="thumbnail" style="max-width: 220px;">
                                         <a href="/article/${a.articleId}">
                                             <img width="280" height="210"
-                                                 src="/img/thumbnail/random/img_${a.articleId%15}.jpg"
+                                                 src="${a.articleImg}"
                                                  class="attachment-content size-content wp-post-image"
                                                  alt="${a.articleTitle}">
                                         </a>
@@ -95,13 +95,13 @@
                                         <span class="entry-meta">
                                             <span class="avatar">
                                                 <a href="/article/${a.articleId}">
-                                                    <img src="/img/thumbnail/random/img_${a.articleId%15}.jpg"
+                                                    <img src="${a.user.userAvatar}"
                                                          style="width : 40px; height: 40px;vertical-align: middle;border-radius: 50%">
                                                 </a>
                                             </span>
                                             <span style="margin-left: 3px;margin-right: 20px;font-size: 120%;">
                                                 <a href="/article/${a.articleId}">
-                                                    username
+                                                    ${a.user.userName}
                                                 </a>
                                             </span>
                                             <span class="date">

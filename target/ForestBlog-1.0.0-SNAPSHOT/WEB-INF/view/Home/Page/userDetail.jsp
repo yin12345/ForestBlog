@@ -11,59 +11,53 @@
 </rapid:override>
 
 <rapid:override name="left">
-    <%--面包屑导航 start--%>
-
-
-    <nav class="breadcrumb" style="height: 100px">
-        <div style="display: inline">
+    <%-- 个人主页上方用户信息 --%>
+    <nav class="widget" style="height: 100px; padding-top: 10px">
+        <div style="display: inline;">
             <div style="float: left; margin: 10px 0px 0px 10px">
                 <a href="javascript:;">
                     <img style="width: 60px; height: 60px" src="${currentUser.userAvatar}"
-                                            class="layui-nav-img"></a>
+                         class="layui-nav-img"></a>
             </div>
 
-            <div style="float: left; margin: 10px 0px 0px 20px">
+            <div style="float: left; margin: 20px 0px 0px 20px">
                 <h1 style="margin: 0px 0px 0px 5px;font-weight: 900;font-size: 18px;">${currentUser.userName}</h1>
-                <a href="#">文章</a> <span class="shu">|</span>
-                <a href="#">关注</a> <span class="shu">|</span>
-                <a href="#">粉丝</a> <span class="shu">|</span>
-                <a href="#">收获的喜欢</a> <span class="shu">|</span>
+                <a href="#">文章 ${requestScope.articleNum1}</a> <span class="shu">|</span>
+                <a href="#">关注 ${requestScope.watchNum1}</a> <span class="shu">|</span>
+                <a href="#">粉丝 ${requestScope.fanNum1}</a> <span class="shu">|</span>
             </div>
 
 
-            <div style="float: left; margin: 10px 0px 00px 200px">
+            <div style="float: left; margin: 20px 0px 00px 200px">
+                    <%-- 如果当前用户不为自己显示关注按钮--%>
+                <c:if test="${sessionScope.user.userId != currentUser.userId}">
+                    <c:if test="${sessionScope.watch==1&&sessionScope.id!=null}">
+                        <form action="watch?user2_id=${currentUser.userId}" method="post">
+                            <button type="submit" class="layui-btn">关注</button>
+                        </form>
+                    </c:if>
 
-                <c:if test="${sessionScope.watch==1}">
-                    <form action="watch?user2_id=2" method="post">
-                        <button type="submit" class="layui-btn">关注</button>
-                    </form>
-                </c:if>
+                    <c:if test="${sessionScope.watch==0&&sessionScope.id!=null}">
+                        <form action="/unwatch?user2_id=${currentUser.userId}" method="post">
+                            <button type="submit" class="layui-btn">取消关注</button>
+                        </form>
+                    </c:if>
 
-
-                <c:if test="${sessionScope.watch==0}">
-                    <form action="/unwatch?user2_id=2" method="post">
-                        <button type="submit" class="layui-btn">取消关注</button>
-                    </form>
                 </c:if>
             </div>
-
         </div>
-
     </nav>
-    <%--面包屑导航 end--%>
-
-
-    <nav class="breadcrumb" style=" height:1000px; padding: 0px">
+    <%-- 个人主页下方Tab栏--%>
+    <nav style=" height:1000px; padding: 0px">
         <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 
-            <ul class="layui-tab-title">
+            <ul class="layui-tab-title" style="background-color: white">
                 <li class="layui-this">文章</li>
                 <li>关注</li>
                 <li>粉丝</li>
 
             </ul>
-            <div class="layui-tab-content" style=" height:auto; padding: 0px ">
-
+            <div class="layui-tab-content" style=" height:auto; padding: 0px;">
                 <div class="layui-tab-item layui-show" style=" height:auto;">
                         <%--博客主体 start--%>
                     <section id="content" class="site-content shadow" style=" height:auto;">
@@ -74,12 +68,12 @@
                                     <c:when test="${pageInfo.list.size() != 0}">
                                         <%--文章列表-start--%>
                                         <c:forEach items="${pageInfo.list}" var="a">
-                                            <article class="post type-post" style="width: 1080px">
+                                            <article class="post type-post" style="width: 1180px">
 
                                                 <figure class="thumbnail" style="max-width: 220px;">
-                                                    <a href="/article/${a.articleId}">
+                                                        <a href="/userarticle/${a.articleId}">
                                                         <img width="480" height="210"
-                                                             src="/img/thumbnail/random/img_${a.articleId%15}.jpg"
+                                                             src="${a.articleImg}"
                                                              class="attachment-content size-content wp-post-image"
                                                              alt="${a.articleTitle}">
                                                     </a>
@@ -87,7 +81,7 @@
 
                                                 <header class="entry-header">
                                                     <h2 class="entry-title">
-                                                        <a href="/article/${a.articleId}"
+                                                        <a href="/userarticle/${a.articleId}"
                                                            rel="bookmark">
                                                                 ${a.articleTitle}
                                                         </a>
@@ -174,7 +168,6 @@
                                 </c:choose>
                             </main>
                             <%@ include file="../Public/part/paging.jsp" %>
-
                         </section>
                     </section>
                 </div>
@@ -184,15 +177,15 @@
                         <%--关注的用户列表-start--%>
                     <c:forEach items="${requestScope.userList}" var="user">
 
-                        <div style="padding: 20px; margin: 10px 0 0 0; background-color: #F2F2F2;">
+                        <div style="padding: 20px; margin: 10px 0 0 0; background-color: white;">
                             <div class="layui-row layui-col-space15">
                                 <div class="layui-col-md6" style="width: 100%;">
                                     <div class="layui-card">
-
-
                                         <div style="float: left; margin: 10px 0px 0px 10px">
-                                            <a href="javascript:;"><img style="width: 60px; height: 60px"
-                                                                        src="${user.userAvatar}" class="layui-nav-img"></a>
+                                            <a href="javascript:;">
+                                                <img style="width: 60px; height: 60px"
+                                                     src="${user.userAvatar}" class="layui-nav-img">
+                                            </a>
                                         </div>
 
                                         <div style="float: left; margin: 10px 0px 0px 20px">
@@ -220,15 +213,14 @@
                         <%--关注的用户列表-start--%>
                     <c:forEach items="${requestScope.fanList}" var="fan">
 
-                        <div style="padding: 20px; margin: 10px 0 0 0; background-color: #F2F2F2;">
+                        <div style="padding: 20px; margin: 10px 0 0 0; background-color: white;">
                             <div class="layui-row layui-col-space15">
                                 <div class="layui-col-md6" style="width: 100%;">
                                     <div class="layui-card">
-
-
                                         <div style="float: left; margin: 10px 0px 0px 10px">
                                             <a href="javascript:;"><img style="width: 60px; height: 60px"
-                                                                        src="${fan.userAvatar}" class="layui-nav-img"></a>
+                                                                        src="${fan.userAvatar}"
+                                                                        class="layui-nav-img"></a>
                                         </div>
 
                                         <div style="float: left; margin: 10px 0px 0px 20px">

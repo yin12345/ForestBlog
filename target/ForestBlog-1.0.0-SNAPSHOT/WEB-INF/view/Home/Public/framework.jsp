@@ -36,13 +36,11 @@
     <link rel="stylesheet" href="/plugin/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/plugin/layui/css/layui.css"  media="all">
 
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/superfish.js"></script>
-    <script src='/js/sticky.js'></script>
-    <script src="/js/script.js"></script>
-    <script src="/plugin/layui/layui.all.js"></script>
-
-
+    <style>
+        table th, table td {
+            vertical-align: middle;
+        }
+    </style>
 
 </head>
 <body>
@@ -69,6 +67,11 @@
 
 <rapid:block name="footer-script"></rapid:block>
 
+<script src="/js/jquery.min.js"></script>
+<script src="/js/superfish.js"></script>
+<script src='/js/sticky.js'></script>
+<script src="/js/script.js"></script>
+<script src="/plugin/layui/layui.all.js"></script>
 <script>
     layui.use(['util', 'laydate', 'layer'], function(){
         var util = layui.util

@@ -49,13 +49,14 @@ public class CommentController {
         } else {
             comment.setCommentRole(Role.VISITOR.getValue());
         }
-        comment.setCommentAuthorAvatar(MyUtils.getGravatar(comment.getCommentAuthorEmail()));
+//        comment.setCommentAuthorAvatar(MyUtils.getGravatar(comment.getCommentAuthorEmail()));
 
         //过滤字符，防止XSS攻击
         comment.setCommentContent(HtmlUtil.escape(comment.getCommentContent()));
         comment.setCommentAuthorName(HtmlUtil.escape(comment.getCommentAuthorName()));
         comment.setCommentAuthorEmail(HtmlUtil.escape(comment.getCommentAuthorEmail()));
         comment.setCommentAuthorUrl(HtmlUtil.escape(comment.getCommentAuthorUrl()));
+        comment.setCommentAuthorAvatar(HtmlUtil.escape(comment.getCommentAuthorAvatar()));
         try {
             commentService.insertComment(comment);
             //更新文章的评论数

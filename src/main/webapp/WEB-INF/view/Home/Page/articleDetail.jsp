@@ -82,6 +82,9 @@
                    onclick="return false;" href="#"></a></li>
         </ul>
     </div>
+
+    <script src="/js/script.js"></script>
+
     <%--博客主体-左侧文章正文 start--%>
     <div id="primary" class="content-area">
         <main id="main" class="site-main" role="main">
@@ -294,21 +297,15 @@
                            style="">取消回复</a>
                     </h3>
                     <form id="comment_form" method="post">
-                            <%--<c:if test="${sessionScope.user!=null}">--%>
-                            <%--<div class="user_avatar">--%>
-                            <%--<img alt="言曌"--%>
-                            <%--src="${sessionScope.user.userAvatar}"--%>
-                            <%--class="avatar avatar-64 photo" height="64" width="64">--%>
-                            <%--登录者：${sessionScope.user.userNickname}--%>
-                            <%--<br> <a href="javascript:void(0)" onclick="logout()">登出</a>--%>
-                            <%--<input type="hidden" name="commentRole" value="1">--%>
-                            <%--<input type="hidden" name="commentAuthorName"--%>
-                            <%--value="${sessionScope.user.getUserNickname()}">--%>
-                            <%--<input type="hidden" name="commentAuthorEmail"--%>
-                            <%--value="${sessionScope.user.getUserEmail()}">--%>
-                            <%--<input type="hidden" name="commentAuthorUrl" value="${sessionScope.user.getUserUrl()}">--%>
-                            <%--</div>--%>
-                            <%--</c:if>--%>
+                        <c:if test="${sessionScope.user!=null}">
+                            <input type="hidden" name="commentAuthorAvatar"
+                                   value="${sessionScope.user.getUserAvatar()}">
+                            <input type="hidden" name="commentAuthorName"
+                                   value="${sessionScope.user.userName}">
+                            <input type="hidden" name="commentAuthorEmail"
+                                   value="${sessionScope.user.getUserEmail()}">
+                            <input type="hidden" name="commentAuthorUrl" value="${sessionScope.user.getUserUrl()}">
+                        </c:if>
                         <p class="comment-form-comment">
                             <textarea id="comment" name="commentContent" rows="4" tabindex="1" required></textarea>
                         </p>
@@ -333,29 +330,24 @@
                     <c:forEach items="${commentList}" var="c">
                         <c:if test="${c.commentPid == 0}">
                             <c:set var="floor" value="${floor + 1}"/>
-                            <li class="comments-anchor">
-                                <ul id="anchor-comment-${c.commentId}"></ul>
-                            </li>
+<%--                            <li class="comments-anchor">--%>
+<%--                                <ul id="anchor-comment-${c.commentId}"></ul>--%>
+<%--                            </li>--%>
                             <li class="comment">
                                 <div id="div-comment-${c.commentId}" class="comment-body">
                                     <div class="comment-author vcard">
                                         <img class="avatar" src="${c.commentAuthorAvatar}" alt="avatar"
                                              style="display: block;">
                                         <strong>${c.commentAuthorName} </strong>
-                                        <c:if test="${c.commentRole == 1}">
-                                            <i class="fa fa-black-tie" style="color: #c40000;"></i>
-                                            <span class=""
-                                                  style="margin-top: 2px!important;color: #c40000;font-size: 13px;;"><b>博主</b></span>
-                                        </c:if>
                                         <span class="comment-meta commentmetadata">
                                             <span class="ua-info" style="display: inline;">
                                                 <br>
                                                 <span class="comment-aux">
-                                                    <span class="reply">
-                                                        <a rel="nofollow" class="comment-reply-link" href="#respond"
-                                                           onclick="replyComment()">回复
-                                                        </a>
-                                                    </span>
+<%--                                                    <span class="reply">--%>
+<%--                                                        <a rel="nofollow" class="comment-reply-link" href="#respond"--%>
+<%--                                                           onclick="replyComment()">回复--%>
+<%--                                                        </a>--%>
+<%--                                                    </span>--%>
                                                     <fmt:formatDate value="${c.commentCreateTime}"
                                                                     pattern="yyyy年MM月dd日 HH:mm:ss"/>&nbsp;
                                                     <c:if test="${sessionScope.user != null}">
@@ -369,10 +361,10 @@
                                                 </span>
                                             </span>
                                         </span>
-                                        <p>
-                                            <c:if test="${c.commentPid!=0}">
-                                                <span class="at">@ ${c.commentPname}</span>
-                                            </c:if>
+                                        <p style="font-size: 16px; margin-top: 5px;color: black">
+<%--                                            <c:if test="${c.commentPid!=0}">--%>
+<%--                                                <span class="at">@ ${c.commentPname}</span>--%>
+<%--                                            </c:if>--%>
                                                 ${c.commentContent}
                                         </p>
                                     </div>
@@ -391,20 +383,15 @@
                                                         <img class="avatar" src="${c2.commentAuthorAvatar}" alt="avatar"
                                                              style="display: block;">
                                                         <strong>${c2.commentAuthorName} </strong>
-                                                        <c:if test="${c2.commentRole==1}">
-                                                            <i class="fa fa-black-tie" style="color: #c40000;"></i>
-                                                            <span class=""
-                                                                  style="margin-top: 2px!important;color: #c40000;font-size: 13px;;"><b>博主</b></span>
-                                                        </c:if>
                                                         <span class="comment-meta">
                                                     <span class="ua-info" style="display: inline;">
                                                     <br>
                                                     <span class="comment-aux">
-                                                        <span class="reply">
-                                                            <a rel="nofollow" class="comment-reply-link" href="#respond"
-                                                               onclick="replyComment()">回复
-                                                            </a>
-                                                        </span>
+<%--                                                        <span class="reply">--%>
+<%--                                                            <a rel="nofollow" class="comment-reply-link" href="#respond"--%>
+<%--                                                               onclick="replyComment()">回复--%>
+<%--                                                            </a>--%>
+<%--                                                        </span>--%>
                                                         <fmt:formatDate value="${c2.commentCreateTime}"
                                                                         pattern="yyyy年MM月dd日 HH:mm:ss"/>&nbsp;
                                                         <c:if test="${sessionScope.user != null}">
@@ -457,6 +444,35 @@
 
     <script type="text/javascript">
 
+        //ajax提交评论信息
+        $("#comment_form").submit(function () {
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: '/comment',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                data: $("#comment_form").serialize(),
+                success: function (data) {
+                    if (data.code == 0) {
+                        layer.msg("评论成功！");
+                        localStorage.setItem('author', $("#author_name").val());
+                        localStorage.setItem('email', $("#author_email").val());
+                        localStorage.setItem('url', $("#author_url").val());
+                        window.setTimeout(window.location.reload, 200);
+                        window.location.href = "/article/${article.articleId}";
+                        return "Home/Page/articleDetail";
+                    } else {
+                        layer.msg(data.msg);
+                    }
+
+                },
+                error: function () {
+                }
+            })
+            return false;
+        })
+
+
         $(document).ready(function () {
             if ($('#author_name').val() == '') {
                 var author = localStorage.getItem("author");
@@ -479,6 +495,7 @@
             // skin: 'notepad', //如果要默认风格，不用设定该key。
             about: false
         });
+
 
     </script>
 

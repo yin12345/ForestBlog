@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liuyanzhao.ssm.blog.mapper.BannerMapper">
+    <resultMap id="BaseResultMap" type="com.liuyanzhao.ssm.blog.entity.Banner">
+        <result column="banner_id" property="bannerId" jdbcType="INTEGER"/>
+        <result column="banner_img" property="bannerImg" jdbcType="VARCHAR"/>
+        <result column="banner_url" property="bannerUrl" jdbcType="VARCHAR"/>
+        <result column="banner_name" property="bannerName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="tb">banner</sql>
+
+    <sql id="Base_Column_List">
+   banner_id,banner_img,banner_url,banner_name
+    </sql>
+
+
+
+    <select id="getBannerById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from <include refid="tb"/>
+        where banner_id = #{bannerId,jdbcType=INTEGER}
+    </select>
+
+    <!--获取链接列表-->
+    <select id="listBanner" resultType="com.liuyanzhao.ssm.blog.entity.Banner">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM  <include refid="tb"/>
+
+    </select>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from
+        <include refid="tb"/>
+        where banner_id = #{bannerId,jdbcType=INTEGER}
+
+    </delete>
+
+    <insert id="insert" parameterType="com.liuyanzhao.ssm.blog.entity.Banner" >
+        insert into
+        <include refid="tb"/>
+        (banner_id ,banner_name,banner_img,banner_url)
+        values (#{bannerId,jdbcType=INTEGER},#{bannerName,jdbcType=VARCHAR},#{bannerImg,jdbcType=VARCHAR},#{bannerUrl,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="update" parameterType="com.liuyanzhao.ssm.blog.entity.Banner">
+        update
+        <include refid="tb"/>
+
+        <set>
+
+        <if test="bannerImg != null">banner_img = #{bannerImg,jdbcType=VARCHAR},</if>
+        <if test="bannerUrl != null">banner_url = #{bannerUrl,jdbcType=VARCHAR},</if>
+        <if test="bannerUrl != null">banner_name = #{bannerName,jdbcType=VARCHAR},</if>
+      </set>
+      where banner_id = #{bannerId,jdbcType=INTEGER}
+    </update>
+
+
+
+
+
+
+
+
+</mapper>

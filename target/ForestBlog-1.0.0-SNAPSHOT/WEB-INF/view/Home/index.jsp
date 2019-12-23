@@ -35,7 +35,7 @@
                     <figure class="thumbnail" style="max-width: 220px;">
                         <a href="/article/${a.articleId}">
                             <img width="480" height="210"
-                                 src="/img/thumbnail/random/img_${a.articleId%15}.jpg"
+                                 src="${a.articleImg}"
                                  class="attachment-content size-content wp-post-image"
                                  alt="${a.articleTitle}">
                         </a>

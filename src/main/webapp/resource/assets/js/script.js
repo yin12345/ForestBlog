@@ -31,10 +31,8 @@ $(document).ready(function () {
         });
     }
 
-
     // 去边线
     $(".message-widget li:last, .message-page li:last, .hot_commend li:last, .search-page li:last, .my-comment li:last, .message-tab li:last").css("border", "none");
-
 
     // 字号 √
     $("#fontsize").click(function () {
@@ -50,9 +48,7 @@ $(document).ready(function () {
             _this.text("A-");
             _t.removeClass("fontlarge").addClass("fontsmall");
         }
-        ;
     });
-
 
 // 结束
 });

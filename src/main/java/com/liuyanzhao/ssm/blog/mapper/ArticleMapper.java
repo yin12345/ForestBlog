@@ -116,7 +116,7 @@ public interface ArticleMapper {
      * @param id 文章ID
      * @return 文章
      */
-    Article getAfterArticle(@Param(value = "id") Integer id);
+    Article getAfterArticle(@Param(value = "id") Integer id,@Param(value = "userId") Integer userId);
 
     /**
      * 获得下一篇文章
@@ -124,7 +124,7 @@ public interface ArticleMapper {
      * @param id 文章ID
      * @return 文章
      */
-    Article getPreArticle(@Param(value = "id") Integer id);
+    Article getPreArticle(@Param(value = "id") Integer id,@Param(value = "userId") Integer userId);
 
     /**
      * 获得随机文章

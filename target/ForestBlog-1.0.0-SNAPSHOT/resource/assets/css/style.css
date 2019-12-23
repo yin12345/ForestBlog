@@ -266,25 +266,25 @@ a, button, input {
     }
 }
 
-@media screen and (min-width: 900px) {
-    .logo-site:before {
-        content: "";
-        position: absolute;
-        left: -665px;
-        top: -460px;
-        width: 220px;
-        height: 15px;
-        background-color: rgba(255, 255, 255, .5);
-        -webkit-transform: rotate(-45deg);
-        -moz-transform: rotate(-45deg);
-        -ms-transform: rotate(-45deg);
-        -o-transform: rotate(-45deg);
-        transform: rotate(-45deg);
-        -webkit-animation: searchLights 1s ease-in 1s infinite;
-        -o-animation: searchLights 1s ease-in 1s infinite;
-        animation: searchLights 1s ease-in 1s infinite;
-    }
-}
+/*@media screen and (min-width: 900px) {*/
+/*    .logo-site:before {*/
+/*        content: "";*/
+/*        position: absolute;*/
+/*        left: -665px;*/
+/*        top: -460px;*/
+/*        width: 220px;*/
+/*        height: 15px;*/
+/*        background-color: rgba(255, 255, 255, .5);*/
+/*        -webkit-transform: rotate(-45deg);*/
+/*        -moz-transform: rotate(-45deg);*/
+/*        -ms-transform: rotate(-45deg);*/
+/*        -o-transform: rotate(-45deg);*/
+/*        transform: rotate(-45deg);*/
+/*        -webkit-animation: searchLights 1s ease-in 1s infinite;*/
+/*        -o-animation: searchLights 1s ease-in 1s infinite;*/
+/*        animation: searchLights 1s ease-in 1s infinite;*/
+/*    }*/
+/*}*/
 
 @-webkit-keyframes searchLights {
     0% {
@@ -3458,6 +3458,7 @@ img.alignleft {
     border-radius: 2px;
     word-wrap: break-word;
     word-break: break-all;
+    height: 110px;
 }
 
 .comment-list ul li {
@@ -3549,7 +3550,7 @@ img.alignleft {
 }
 
 .comment-body {
-    min-height: 75px;
+    min-height: 65px;
 }
 
 .comment-body:hover .avatar {

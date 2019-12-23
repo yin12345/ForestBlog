@@ -22,9 +22,9 @@
     <style type="text/css">
         body{
             font-family: "Microsoft YaHei", Helvetica, Arial, Lucida Grande, Tahoma, sans-serif;
-            background: url(/img/loginBg.jpg);
+            /*background: url(/img/loginBg.jpg);*/
             width:100%;
-            height:100%;
+            height:95%;
         }
         .login h1 a {
             background-size: 220px 50px;
@@ -45,7 +45,7 @@
         }
 
         #backtoblog a, #nav a {
-            color: #fff !important;
+            color: #fff;
         }
 
     </style><meta name='robots' content='noindex,follow' />
@@ -59,8 +59,8 @@
     </style>
 </head>
 <body class="login login-action-login wp-core-ui  locale-zh-cn">
+<p id="backtoblog" style="padding:30px 0 0 100px"><a style="color: black;font-size: 20px;" href="/">博客管理系统</a></p>
 <div id="login">
-    <h1><a href="/" title="欢迎您光临本站！" tabindex="-1">${options.optionSiteTitle}</a></h1>
     <%
          String username = "";
          String password = "";
@@ -106,8 +106,6 @@
         if(typeof wpOnload=='function')wpOnload();
     </script>
 
-    <p id="backtoblog"><a href="/">&larr; 返回到风吟博客</a></p>
-
 </div>
 
 
@@ -138,7 +136,6 @@
                         alert(data.msg);
                     } else {
                         window.location.href="/";
-
                     }
                 },
                 error: function () {

@@ -10,10 +10,10 @@
 
 <div class="layui-carousel" id="banner" style="margin:0 auto ;padding-bottom: 10px">
     <div carousel-item="">
-        <c:forEach var="cnt" begin="5" end="9" step="1">
+        <c:forEach var="ll" items="${linkList}">
             <div>
-                <a href="/">
-                    <img src="/img/banner_img/${cnt}.jpg" style="height: 300px;width: 810px">
+                <a href="${ll.bannerUrl}">
+                    <img src="${ll.bannerImg}" style="height: 300px;width: 810px">
                 </a>
             </div>
         </c:forEach>

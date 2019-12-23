@@ -15,7 +15,7 @@
         <nav style="height: 75px; ">
             <div style="display: inline;">
                 <div style="float: left; margin: 10px 0px 0px 15px">
-                    <a href="javascript:;">
+                    <a href="/user?userId=${article.user.userId}">
                         <img style="width: 60px; height: 60px"
                              src="${article.user.userAvatar}" class="layui-nav-img">
                     </a>
@@ -24,25 +24,32 @@
                 <div style="float: left; margin: 15px 0px 0px 10px;">
                     <h1 style="font-weight: 900;font-size: 18px;">${article.user.userName}</h1>
                     <div style=" color: #999">
-                        <a href="#">文章 100</a> <span class="shu">|</span>
-                        <a href="#">关注 100</a>
+                        <a href="javascript:void(0);">文章 ${requestScope.articleNum}</a> <span class="shu">|</span>
+                        <a href="#javascript:void(0);">关注 ${requestScope.watchNum}</a>
                     </div>
                 </div>
 
                 <div style="float: right;margin-top: 25px;margin-right: 20px ">
-                    <form action="watch" method="post">
-                        <button type="submit" class="layui-btn layui-btn-normal layui-btn-radius">关注</button>
-                    </form>
+                    <c:if test="${sessionScope.watch==1&&sessionScope.id!=null}">
+                        <form action="/watch1?articleId=${article.articleId}" method="post">
+                            <button type="submit" class="layui-btn">关注</button>
+                        </form>
+                    </c:if>
+                    <c:if test="${sessionScope.watch==0&&sessionScope.id!=null}">
+                        <form action="/unwatch1?articleId=${article.articleId}" method="post">
+                            <button type="submit" class="layui-btn">取消关注</button>
+                        </form>
+                    </c:if>
                 </div>
             </div>
         </nav>
         <hr/>
         <div style="margin-left: 10px">
             <ul>
-                <c:forEach items="${recentArticleList}" var="ra">
+                <c:forEach items="${userArticleList}" var="ua">
                     <li>
-                        <a href="/article/${ra.articleId}" style="color: #404040; font-size: 15px">${ra.articleTitle}</a>
-                        <p style="color: #999;font-size: 12px;">阅读 ${ra.articleViewCount}</p>
+                        <a href="/article/${ua.articleId}" style="color: #404040; font-size: 15px">${ua.articleTitle}</a>
+                        <p style="color: #999;font-size: 12px;">阅读 ${ua.articleViewCount}</p>
                     </li>
                 </c:forEach>
             </ul>

@@ -133,7 +133,7 @@ public interface ArticleService {
      * @param id 文章ID
      * @return 文章
      */
-    Article getAfterArticle(Integer id);
+    Article getAfterArticle(Integer id,Integer userId);
 
     /**
      * 获得下一篇文章
@@ -141,7 +141,7 @@ public interface ArticleService {
      * @param id 文章ID
      * @return 文章
      */
-    Article getPreArticle(Integer id);
+    Article getPreArticle(Integer id,Integer userId);
 
     /**
      * 获得随机文章

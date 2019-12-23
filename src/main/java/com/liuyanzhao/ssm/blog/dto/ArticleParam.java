@@ -10,6 +10,7 @@ import java.util.List;
  */
 @Data
 public class ArticleParam {
+    private Integer articleUserId;
 
     private Integer articleId;
 
@@ -26,6 +27,8 @@ public class ArticleParam {
     private Integer articleStatus;
 
     private List<Integer> articleTagIds;
+
+    private String articleImg;
 
     public Integer getArticleId() {
         return articleId;
@@ -90,4 +93,21 @@ public class ArticleParam {
     public void setArticleTagIds(List<Integer> articleTagIds) {
         this.articleTagIds = articleTagIds;
     }
+
+    public String getArticleImg() {
+        return articleImg;
+    }
+
+    public void setArticleImg(String articleImg) {
+        this.articleImg = articleImg;
+    }
+
+    public Integer getArticleUserId() {
+        return articleUserId;
+    }
+
+    public void setArticleUserId(Integer articleUserId) {
+        this.articleUserId = articleUserId;
+    }
+
 }

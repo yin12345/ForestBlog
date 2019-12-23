@@ -30,6 +30,22 @@
             </div>
         </div>
 
+        <div class="layui-input-inline" style="margin: 10px 0 10px 25px">
+            <div class="layui-upload">
+                <div style="float: left">
+                    <label class="layui-form-label">标题图片 <span style="color: #FF5722; ">*</span></label>
+                </div>
+
+                <div class="layui-upload-list" style="float: right;">
+                    <img class="layui-upload-img"  id="demo1" width="300"
+                         height="150" src="${article.articleImg}"/>
+                    <p id="demoText"></p>
+                    <button type="button" class="layui-btn" id="test1">上传图片</button>
+                </div>
+            </div>
+            <input type="hidden" name="articleImg" id="articleImg" value="${article.articleImg}">
+        </div>
+
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">内容 <span style="color: #FF5722; ">*</span></label>
             <div class="layui-input-block">
@@ -165,6 +181,38 @@
 //            return "确认离开当前页面吗？未保存的数据将会丢失";
 //        }
 
+
+        //上传图片
+        layui.use('upload', function () {
+            var $ = layui.jquery,
+                upload = layui.upload;
+            var uploadInst = upload.render({
+                elem: '#test1',
+                url: '/admin/upload/img',
+                before: function (obj) {
+                    console.log(obj);
+                    obj.preview(function (index, file, result) {
+                        $('#demo1').attr('src', result);
+                    });
+                },
+                done: function (res) {
+                    $("#articleImg").attr("value", res.data.src);
+                    if (res.code > 0) {
+                        return layer.msg('上传失败');
+                    }
+                },
+                error: function () {
+                    var demoText = $('#demoText');
+                    demoText.html('' +
+                        '<span style="color: #FF5722;">上传失败</span>' +
+                        ' <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+                    demoText.find('.demo-reload').on('click', function () {
+                        uploadInst.upload();
+                    });
+                }
+            });
+
+        });
 
 
     </script>

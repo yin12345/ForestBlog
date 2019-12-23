@@ -44,16 +44,16 @@ public class AdminController {
      *
      * @return
      */
-    @RequestMapping("/admin")
-    public String index(Model model)  {
-        //文章列表
-        List<Article> articleList = articleService.listRecentArticle(5);
-        model.addAttribute("articleList",articleList);
-        //评论列表
-        List<Comment> commentList = commentService.listRecentComment(5);
-        model.addAttribute("commentList",commentList);
-        return "Admin/index";
-    }
+//    @RequestMapping("/admin")
+//    public String index(Model model) {
+//        //文章列表
+//        List<Article> articleList = articleService.listRecentArticle(5);
+//        model.addAttribute("articleList", articleList);
+//        //评论列表
+//        List<Comment> commentList = commentService.listRecentComment(5);
+//        model.addAttribute("commentList", commentList);
+//        return "Admin/index";
+//    }
 
     /**
      * 登录页面显示
@@ -66,49 +66,72 @@ public class AdminController {
     }
 
     /**
+     * 注册页面显示
+     *
+     * @return
+     */
+    @RequestMapping("/register")
+    public String registerPage() {
+        return "Admin/register";
+    }
+
+    @RequestMapping(value = "/registerUser", method = RequestMethod.POST)
+    public String registerUser(User user) {
+        System.out.println("注册" + user);
+        User user1 = userService.getUserByName(user.getUserName());
+        if (user1 == null) {
+            user.setUserRegisterTime(new Date());
+            user.setUserStatus(1);
+            userService.insertUser(user);
+        }
+        return "redirect:/login";
+    }
+
+    /**
      * 登录验证
      *
      * @param request
      * @param response
      * @return
      */
-    @RequestMapping(value = "/loginVerify",method = RequestMethod.POST)
+    @RequestMapping(value = "/loginVerify", method = RequestMethod.POST)
     @ResponseBody
-    public String loginVerify(HttpServletRequest request, HttpServletResponse response)  {
+    public String loginVerify(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<String, Object>();
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String rememberme = request.getParameter("rememberme");
         User user = userService.getUserByNameOrEmail(username);
+        System.out.println("login v" + user);
 
-        if(user==null) {
-            map.put("code",0);
-            map.put("msg","用户名无效！");
-        } else if(!user.getUserPass().equals(password)) {
-            map.put("code",0);
-            map.put("msg","密码错误！");
+        if (user == null) {
+            map.put("code", 0);
+            map.put("msg", "用户名无效！");
+        } else if (!user.getUserPass().equals(password)) {
+            map.put("code", 0);
+            map.put("msg", "密码错误！");
         } else {
             //登录成功
-            int permission=user.getUserPermission();
-            int id =user.getUserId();
-            String name=user.getUserName();
-            map.put("code",1);
-            map.put("msg","");
+            int permission = user.getUserPermission();
+            int id = user.getUserId();
+            String name = user.getUserName();
+            map.put("code", 1);
+            map.put("msg", "");
             //添加session
             request.getSession().setAttribute("user", user);
             //添加cookie
-            if(rememberme!=null) {
+            if (rememberme != null) {
                 //创建两个Cookie对象
                 Cookie nameCookie = new Cookie("username", username);
                 //设置Cookie的有效期为3天
                 nameCookie.setMaxAge(60 * 60 * 24 * 3);
                 Cookie pwdCookie = new Cookie("password", password);
                 pwdCookie.setMaxAge(60 * 60 * 24 * 3);
-                HttpSession session=request.getSession();
-                session.setAttribute("permission",permission);
-                session.setAttribute("id",id);
-                session.setAttribute("name",name);
+                HttpSession session = request.getSession();
+                session.setAttribute("permission", permission);
+                session.setAttribute("id", id);
+                session.setAttribute("name", name);
                 response.addCookie(nameCookie);
                 response.addCookie(pwdCookie);
 
@@ -116,7 +139,6 @@ public class AdminController {
             user.setUserLastLoginTime(new Date());
             user.setUserLastLoginIp(getIpAddr(request));
             userService.updateUser(user);
-
         }
         String result = new JSONObject(map).toString();
         return result;
@@ -129,7 +151,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value = "/admin/logout")
-    public String logout(HttpSession session)  {
+    public String logout(HttpSession session) {
         session.removeAttribute("user");
         session.invalidate();
         return "redirect:/login";

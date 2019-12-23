@@ -185,13 +185,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Article getAfterArticle(Integer id) {
-        return articleMapper.getAfterArticle(id);
+    public Article getAfterArticle(Integer id,Integer userId) {
+        return articleMapper.getAfterArticle(id,userId);
     }
 
     @Override
-    public Article getPreArticle(Integer id) {
-        return articleMapper.getPreArticle(id);
+    public Article getPreArticle(Integer id,Integer userId) {
+        return articleMapper.getPreArticle(id,userId);
     }
 
     @Override
